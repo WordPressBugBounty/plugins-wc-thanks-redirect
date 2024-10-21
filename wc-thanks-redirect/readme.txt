@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page,woocommerce thank you,woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 4.1.5
-Version: 4.1.5
+Stable tag: 4.1.6
+Version: 4.1.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,8 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 11- Ability to make separate pages for each product ( Product specific thankyou page )
 
+12- Compatible with <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a>, enabling **Order Approval** allowing shop owners to **approve** or **reject** orders before payment is processed.
+
 
 **PRO Features**
 
@@ -78,12 +80,32 @@ This plugin is open for new feature request. Just create a request in plugin sup
 7- URL Personalization **[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
 In the “Thank You URL” field in the product? put like this https://site.com/thanks?client_email=[billing_email]
 
-Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!
+8- eCommerce DataLayer for Analytics
+
+9- Thank you page based on Payment Gateway
+
+10- Thank You Page based on User Role
+
+11- Thank you page based on Product Type
+
+12- Thank You Page based on Product Category
+
+13- Thank You Page based on Product Tags
+
+14- Thank You Page based on Product Variation
+
+15- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
+
+**Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!**
 <a href="https://nitin247.com/how-to-create-woocommerce-thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR" class="cta-button">
   Discover How to Create a WooCommerce Thank You Page
 </a>
 
 Check PRO Version for Wordpress Multisite here <a href="https://bit.ly/2RxRkT5">Thank You Page for WooCommerce PRO</a>
+
+**Supercharge Your WooCommerce Order Approval Process!**
+Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce plugin</a>
+Easily **approve or reject orders** and streamline your workflow like never before.
 
 **Credits**
 - Developed by <a target="_blank" href="https://profiles.wordpress.org/nitin247/">Nitin Prakash</a>
@@ -198,10 +220,10 @@ SDK Update.
 FIX Order id in multilanguage.
 ** V 4.1.4 **
 Code Optimizations.
-** V 4.1.5 **
-Compatibility with Pro.
+** V 4.1.6 **
+Approve Orders for WooCommerce compatibility added.
 
 == Upgrade Notice ==
 
-= 4.1.5 = 
-Compatibility with Pro.
+= 4.1.6 = 
+Approve Orders compatibility.

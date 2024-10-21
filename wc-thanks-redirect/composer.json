@@ -1,0 +1,21 @@
+{
+    "name": "neebplugins/wc-thanks-redirect",
+    "description": "Thank you page for WooCommerce",
+    "type": "premium-plugin",
+    "license": "gpl2.0",
+    "autoload": {
+        "psr-4": {
+            "NeeBPlugins\\Wctr\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "neebplugins",
+            "email": "neebplugins@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4"
+    }
+}

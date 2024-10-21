@@ -1,0 +1,68 @@
+body.wctr-admin {    
+
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;    
+}
+
+.wctr-admin .card-body {
+    padding: 0.5rem !important;    
+}
+
+.wctr-admin .table th,
+.wctr-admin .table td {
+    padding: 0.3rem !important;    
+}
+
+.wctr-admin .form-control, .wctr-admin .form-select {
+    font-size: 0.875rem !important;       
+}
+
+.wctr-admin .form-label {
+    font-weight: 500 !important;    
+}
+
+/* CSS for WCTR Admin */
+.remove-rule-btn,
+.remove-group-btn {
+    cursor: pointer;
+}
+
+.value-input,
+.value-select,
+.value-multiselect {
+    display: none;
+}
+
+/* Select2 customization */
+
+/* Adjust the height of the Select2 selection box */
+.select2-container .select2-selection--single {
+    height: calc(1.5em + 0.75rem + 2px) !important;
+    /* Adjust based on Bootstrap's form-control height */
+    border: 1px solid #ced4da;
+    /* Match Bootstrap border */
+    border-radius: 0.25rem;
+    /* Match Bootstrap border radius */
+}
+
+/* Adjust the line height of the rendered text */
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 1.5 !important;
+    /* Match Bootstrap line height */
+}
+
+/* Adjust the arrow icon */
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: calc(1.5em + 0.75rem + 2px) !important;
+    /* Match height */
+    right: 10px;
+    /* Adjust position if necessary */
+}
+
+/* Optional: Adjust the dropdown results */
+.select2-container--default .select2-results__options {
+    max-height: 200px;
+    /* Set a max height for the dropdown */
+    overflow-y: auto;
+    /* Enable scrolling if needed */
+}
