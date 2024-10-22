@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.1.6
+ * Version:           4.1.7
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -67,7 +67,7 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 // Include autoload, functions, shortcodes
 require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.1.6' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.1.7' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -119,7 +119,7 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			}
 
 			if ( is_multisite() ) {
-				add_action( 'admin_notices', 'multisite_admin_notice' );
+				add_action( 'admin_notices', array( $this, 'multisite_admin_notice' ) );
 				return;
 			}
 
@@ -164,7 +164,8 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 
 	}
 
-	$plugin_instance = WCTR_Plugin::get_instance();
+	// Initiate Plugin Instance
+	WCTR_Plugin::get_instance();
 
 }
 
