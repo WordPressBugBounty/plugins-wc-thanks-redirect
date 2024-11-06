@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page,woocommerce thank you,woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 4.1.7
-Version: 4.1.7
+Stable tag: 4.1.8
+Version: 4.1.8
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,7 +75,7 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 5- Trustpilot compatible
 
-6- Personalization shortcodes **[TRFW_ORDER_NUMBER]**,**[TRFW_CUSTOMER_FIRST_NAME]**,**[TRFW_CUSTOMER_LAST_NAME]**,**[TRFW_CUSTOMER_EMAIL]**,**[TRFW_CUSTOMER_DETAILS]**
+6- Personalization shortcodes **[TRFW_ORDER_NUMBER]**,**[TRFW_CUSTOMER_FIRST_NAME]**,**[TRFW_CUSTOMER_LAST_NAME]**,**[TRFW_CUSTOMER_EMAIL]**,**[TRFW_CUSTOMER_PHONE_NUMBER]**,**[TRFW_CUSTOMER_DETAILS]**,**[TRFW_ORDER_TOTAL]**,**[TRFW_ORDER_CUSTOMER_NOTES]**,**[TRFW_ORDER_PAYMENT_METHOD]**,**[TRFW_ORDER_DATE]**,**[TRFW_SHIPPING_ADDRESS]**,**[TRFW_GMC_REVIEW_FORM]**
 
 7- URL Personalization **[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
 In the “Thank You URL” field in the product? put like this https://site.com/thanks?client_email=[billing_email]
@@ -95,6 +95,8 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 14- Thank You Page based on Product Variation
 
 15- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
+
+For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/">documentation page</a>.
 
 **Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!**
 <a href="https://nitin247.com/how-to-create-woocommerce-thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR" class="cta-button">
@@ -179,7 +181,7 @@ Enjoy using the Thank you page for WooCommerce plugin!
 3. How to add shortcode for Order Details
 4. Order details on Thank You Page
 5. Order details on Thank You Page for downloadable products
-6. Per Product Redirect URL with priority parameter 
+6. Per Product Redirect URL with priority parameter
 
 == Changelog ==
 
@@ -224,8 +226,10 @@ Code Optimizations.
 Approve Orders for WooCommerce compatibility added.
 ** V 4.1.7 **
 SDK Update, FIX fatal error.
+** V 4.1.8 **
+Bug fixes & improvements.
 
 == Upgrade Notice ==
 
-= 4.1.7 = 
-SDK Update, FIX fatal error.
+= 4.1.8 = 
+Bug fixes & improvements.

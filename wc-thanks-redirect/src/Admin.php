@@ -178,7 +178,7 @@ class Admin {
 								<?php esc_html_e( 'Add New Rule', 'wc-thanks-redirect' ); ?>
 							</button>
 							<!-- Save Changes Button -->
-							<a class="button button-primary" id="upgrade-pro" href="<?php echo esc_url( $wc_thanks_redirect_fs->get_upgrade_url() );?>">
+							<a class="button button-primary" id="upgrade-pro" href="<?php echo esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ); ?>">
 								<?php esc_html_e( 'Upgrade to PRO', 'wc-thanks-redirect' ); ?>
 							</a>
 						</p>
@@ -195,8 +195,8 @@ class Admin {
 								<a href="javascript:void(0)"><i class="text-secondary fas fa-bars"></i></a>
 							</div>
 							<div class="d-flex align-items-center">
-								<a class="btn btn-sm btn-link remove-group-btn" title="<?php echo esc_attr( 'Remove Group', 'wc-thanks-redirect' ); ?>">
-									<i class="fas fa-trash-alt"></i>
+								<a class="btn btn-sm remove-group-btn" title="<?php echo esc_attr( 'Remove Group', 'wc-thanks-redirect' ); ?>">
+									<i class="dashicons dashicons-remove text-danger"></i>
 								</a>
 							</div>
 						</div>
@@ -244,8 +244,8 @@ class Admin {
 							</select>
 						</div>
 						<div class="col-md-1 text-end">
-							<a href="javascript:void(0)" class="btn btn-sm btn-link remove-rule-btn" title="<?php echo esc_attr( 'Remove Rule', 'wc-thanks-redirect' ); ?>">
-								<i class="fas fa-trash-alt"></i>
+							<a href="javascript:void(0)" class="btn btn-sm remove-rule-btn" title="<?php echo esc_attr( 'Remove Rule', 'wc-thanks-redirect' ); ?>">
+								<i class="dashicons dashicons-remove text-danger"></i>
 							</a>
 						</div>
 					</div>
@@ -301,16 +301,16 @@ class Admin {
 
 	public function admin_scripts() {
 
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wc-settings' && isset( $_GET['wctr-tab'] ) ) {
+		if ( isset( $_GET['page'] ) && 'wc-settings' === $_GET['page'] && isset( $_GET['section'] ) && 'wctr' === $_GET['section'] ) {
 
 			wp_enqueue_style( 'wctr-bootstrap', WCTR_PLUGIN_URL . 'assets/css/bootstrap.min.css', array(), '5.0.2' );
-			wp_enqueue_style( 'wctr-admin', WCTR_PLUGIN_URL . 'assets/css/admin.css', array(), WCTR_VERSION );
-			wp_enqueue_style( 'font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.5.14' );
-			wp_enqueue_script( 'wctr-admin', WCTR_PLUGIN_URL . 'assets/js/admin.js', array( 'wp-api' ), WCTR_VERSION, true );
-			wp_enqueue_script( 'wctr-bootstrap', WCTR_PLUGIN_URL . 'assets/js/bootstrap.min.js', array( 'jquery' ), WCTR_VERSION, true );
-			wp_enqueue_style( 'toastr-css', '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css' );
-			wp_enqueue_script( 'toastr-js', '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js', array( 'jquery' ), null, true );
+			wp_enqueue_style( 'wctr-backend', WCTR_PLUGIN_URL . 'assets/css/admin.css', array(), WCTR_VERSION );
+			wp_enqueue_style( 'toastr', WCTR_PLUGIN_URL . 'assets/css/toastr.min.css', array() );
+			wp_enqueue_style( 'dashicons' );
 
+			wp_enqueue_script( 'wctr-backend', WCTR_PLUGIN_URL . 'assets/js/admin.js', array( 'wp-api' ), WCTR_VERSION, true );
+			wp_enqueue_script( 'wctr-bootstrap', WCTR_PLUGIN_URL . 'assets/js/bootstrap.min.js', array( 'jquery' ), WCTR_VERSION, true );
+			wp_enqueue_script( 'toastr', WCTR_PLUGIN_URL . 'assets/js/toastr.min.js', array( 'jquery' ), null, true );
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
@@ -329,7 +329,7 @@ class Admin {
 			);
 
 			wp_localize_script(
-				'wctr-admin',
+				'wctr-backend',
 				'wctr_config',
 				$localized_data
 			);
