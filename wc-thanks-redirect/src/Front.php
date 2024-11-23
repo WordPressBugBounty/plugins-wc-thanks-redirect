@@ -3,7 +3,7 @@
 /**
  * @package     Thank You Page
  * @since       4.1.6
-*/
+ */
 
 namespace NeeBPlugins\Wctr;
 
@@ -19,7 +19,6 @@ class Front {
 	 * @since 4.1.6
 	 * @return object initialized object of class.
 	 */
-
 	public static function get_instance() {
 
 		if ( is_null( self::$instance ) ) {
@@ -40,11 +39,11 @@ class Front {
 		$order_key = ! empty( $_GET['order_key'] ) ? wp_kses_post( $_GET['order_key'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$order_id  = wc_get_order_id_by_order_key( $order_key );
 		$order     = wc_get_order( $order_id );
-	
+
 		if ( ! $order ) {
 			return;
 		}
-	
+
 		$order_items           = $order->get_items( apply_filters( 'woocommerce_purchase_order_item_types', 'line_item' ) );
 		$show_purchase_note    = $order->has_status( apply_filters( 'woocommerce_purchase_note_order_statuses', array( 'completed', 'processing' ) ) );
 		$show_customer_details = is_user_logged_in() && $order->get_user_id() === get_current_user_id();
@@ -107,18 +106,18 @@ class Front {
 							<?php
 							do_action( 'woocommerce_order_details_before_order_table_items', $order );
 							foreach ( $order_items as $item_id => $item ) {
-	
+
 								$product = $item->get_product();
-	
+
 								wc_get_template(
 									'order/order-details-item.php',
 									array(
-										'order'              => $order,
-										'item_id'            => $item_id,
-										'item'               => $item,
+										'order'         => $order,
+										'item_id'       => $item_id,
+										'item'          => $item,
 										'show_purchase_note' => $show_purchase_note,
-										'purchase_note'      => $product ? $product->get_purchase_note() : '',
-										'product'            => $product,
+										'purchase_note' => $product ? $product->get_purchase_note() : '',
+										'product'       => $product,
 									)
 								);
 							}
@@ -157,11 +156,11 @@ class Front {
 		 * @param WC_Order $order Order data.
 		 */
 		do_action( 'woocommerce_after_order_details', $order );
-	
+
 		if ( $show_customer_details ) {
 			wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) );
 		}
-	
+
 		$shortcode_output = ob_get_clean();
 		return $shortcode_output;
 	}
@@ -182,7 +181,9 @@ class Front {
 
 			$order_string = "&order_key=$order_key";
 
-			$thanks_url = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . $thank_you_url['query'] . $order_string;
+			$thanks_url = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . ( ! empty( $thank_you_url['port'] ) ? ':' . $thank_you_url['port'] : '' ) . $thank_you_url['path'] . '?'
+			. ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' )
+			. $order_string;
 
 			if ( $order_status !== 'failed' ) {
 				wp_redirect( $thanks_url );
@@ -206,7 +207,7 @@ class Front {
 					$thank_you_url = wp_parse_url( get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true ) );
 					$url_priority  = get_post_meta( $product_id, 'wc_thanks_redirect_url_priority', true );
 
-					$product_thanks = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . $order_string;
+					$product_thanks = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' ) . $order_string;
 					$product_failed = get_post_meta( $product_id, 'wc_thanks_redirect_custom_failure', true );
 
 					$priority['thankyou'] = $product_thanks;

@@ -4,10 +4,10 @@ Author URI: http://www.nitin247.com/
 Author: Nitin Prakash
 Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page,woocommerce thank you,woocommerce thank you page, custom thank you page, woo thank you page
-Requires at least: 6.0
-Tested up to: 6.6
-Stable tag: 4.1.8
-Version: 4.1.8
+Requires at least: 6.2
+Tested up to: 6.7
+Stable tag: 4.1.9
+Version: 4.1.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -228,8 +228,10 @@ Approve Orders for WooCommerce compatibility added.
 SDK Update, FIX fatal error.
 ** V 4.1.8 **
 Bug fixes & improvements.
+** V 4.1.9 **
+Code Improvements.
 
 == Upgrade Notice ==
 
-= 4.1.8 = 
-Bug fixes & improvements.
+= 4.1.9 = 
+Code Improvements.

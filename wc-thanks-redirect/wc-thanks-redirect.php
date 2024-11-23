@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.1.8
+ * Version:           4.1.9
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -18,16 +18,31 @@
  * Text Domain:       wc-thanks-redirect
  * Domain Path:       /languages/
  * Requires PHP:      7.4
- * WC requires at least: 8.5
- * WC tested up to: 9.3
+ * Requires at least: 6.2
+ * WC requires at least: 8.2
+ * WC tested up to: 9.4
  */
 
- use NeeBPlugins\Wctr\Admin as WctrAdmin;
- use NeeBPlugins\Wctr\Front as WctrFront;
- use NeeBPlugins\Wctr\Api as WctrApi;
+use NeeBPlugins\Wctr\Admin as WctrAdmin;
+use NeeBPlugins\Wctr\Front as WctrFront;
+use NeeBPlugins\Wctr\Api as WctrApi;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
+
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.1.9' );
+defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
+defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
+defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
+defined( 'WCTR_PLUGIN_URL' ) || define( 'WCTR_PLUGIN_URL', plugin_dir_url( WCTR_FILE ) );
+defined( 'WCTR_TEXTDOMAIN' ) || define( 'WCTR_TEXTDOMAIN', 'wc-thanks-redirect' );
+
+// Include dependencies
+if ( file_exists( WCTR_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
+	require_once WCTR_PLUGIN_DIR . 'vendor/autoload.php';
+} else {
+	wp_die( 'Plugin dependencies not installed!!!' );
+}
 
 if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 	// Create a helper function for easy SDK access.
@@ -35,44 +50,43 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 		global $wc_thanks_redirect_fs;
 
 		if ( ! isset( $wc_thanks_redirect_fs ) ) {
-			// Include Freemius SDK.
-			include_once dirname( __FILE__ ) . '/freemius/start.php';
+			// SDK Loaded via Composer.
 
 			$wc_thanks_redirect_fs = fs_dynamic_init(
 				array(
-					'id'             => '5290',
-					'slug'           => 'wc-thanks-redirect',
-					'type'           => 'plugin',
-					'public_key'     => 'pk_a2ce319e73a5895901df9374e2a05',
-					'is_premium'     => false,
-					'has_addons'     => false,
-					'has_paid_plans' => false,
-					'menu'           => array(
-						'slug'       => 'wc-settings',
+					'id'               => '5290',
+					'slug'             => 'wc-thanks-redirect',
+					'type'             => 'plugin',
+					'public_key'       => 'pk_a2ce319e73a5895901df9374e2a05',
+					'is_premium'       => false,
+					'is_premium_only'  => false,
+					'has_addons'       => false,
+					'has_paid_plans'   => false,
+					'has_affiliation'  => 'selected',
+					'menu'             => array(
 						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',
+						'support'    => false,
+						'account'    => false,
 					),
+					'enable_anonymous' => true,
+					'require_optin'    => false,
 				)
 			);
+
 		}
 
 		return $wc_thanks_redirect_fs;
 	}
 
 	// Init Freemius.
-	wc_thanks_redirect_fs();
+	$freemius_init = wc_thanks_redirect_fs();
 	// Signal that SDK was initiated.
 	do_action( 'wc_thanks_redirect_fs_loaded' );
+
+	if ( $freemius_init->is_free_plan() ) {
+		$freemius_init->skip_connection();
+	}
 }
-
-// Include autoload, functions, shortcodes
-require_once dirname( __FILE__ ) . '/vendor/autoload.php';
-
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.1.8' );
-defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
-defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
-defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
-defined( 'WCTR_PLUGIN_URL' ) || define( 'WCTR_PLUGIN_URL', plugin_dir_url( WCTR_FILE ) );
-defined( 'WCTR_TEXTDOMAIN' ) || define( 'WCTR_TEXTDOMAIN', 'wc-thanks-redirect' );
 
 if ( ! class_exists( 'WCTR_Plugin' ) ) {
 
@@ -95,7 +109,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 				self::$instance = new self();
 			}
 			return self::$instance;
-
 		}
 
 		public function __construct() {
@@ -122,7 +135,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 				add_action( 'admin_notices', array( $this, 'multisite_admin_notice' ) );
 				return;
 			}
-
 		}
 
 		public function run_plugin() {
@@ -161,7 +173,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			echo '<p>' . wp_kses_post( __( 'Thank You Page for WooCommerce is not designed for Multisite, you may need to buy this short plugin. <a target="_blank" href="https://bit.ly/2RwaIQB">Thank You Page for WooCommerce PRO</a>!', 'wc-thanks-redirect' ) ) . '</p>';
 			echo '</div>';
 		}
-
 	}
 
 	// Initiate Plugin Instance
@@ -189,4 +200,3 @@ function wc_thanks_redirect_get_order_id() {
 
 	return $order_id;
 }
-
