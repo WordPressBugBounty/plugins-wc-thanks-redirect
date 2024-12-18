@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page,woocommerce thank you,woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.7
-Stable tag: 4.1.9
-Version: 4.1.9
+Stable tag: 4.2.0
+Version: 4.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -95,6 +95,8 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 14- Thank You Page based on Product Variation
 
 15- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
+
+16- WooCommerce Checkout Manager compatibility
 
 For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/">documentation page</a>.
 
@@ -230,8 +232,10 @@ SDK Update, FIX fatal error.
 Bug fixes & improvements.
 ** V 4.1.9 **
 Code Improvements.
+** V 4.2.0 **
+Documentation updated.
 
 == Upgrade Notice ==
 
-= 4.1.9 = 
-Code Improvements.
+= 4.2.0 = 
+Documentation updated.

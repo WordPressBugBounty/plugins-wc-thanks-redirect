@@ -6,10 +6,7 @@
     "autoload": {
         "psr-4": {
             "NeeBPlugins\\Wctr\\": "src/"
-        },
-        "files": [
-            "vendor/freemius/wordpress-sdk/start.php"
-        ]
+        }
     },
     "authors": [
         {
@@ -20,6 +17,6 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
-        "freemius/wordpress-sdk": "^2.9.0"
+        "freemius/wordpress-sdk": "^2.10.1"
     }
 }

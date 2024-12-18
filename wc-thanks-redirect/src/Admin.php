@@ -86,7 +86,8 @@ class Admin {
 
 			echo '<div align="center" class="my-3">
 					<a href="' . esc_url( $settings_tab ) . '" class="settingstab-link button ' . ( 'settings' === $tab ? 'button-primary' : '' ) . '">' . esc_html( 'Settings', 'wc-thanks-redirect' ) . '</a>
-					<a href="' . esc_url( $rules_tab ) . '" class="settingstab-link button ' . ( 'rules' === $tab ? 'button-primary' : '' ) . '">' . esc_html( 'Rules ( PRO )', 'wc-thanks-redirect' ) . '</a>				
+					<a href="' . esc_url( $rules_tab ) . '" class="settingstab-link button ' . ( 'rules' === $tab ? 'button-primary' : '' ) . '">' . esc_html( 'Rules ( PRO )', 'wc-thanks-redirect' ) . '</a>	
+					<a target="_blank" href="' . esc_url( WCTR_KB_URL ) . '" class="settingstab-link button">' . esc_html( 'Documentation', 'wc-thanks-redirect' ) . '</a>				
 					</div>';
 
 			if ( 'wctr' === $current_section && 'settings' === $tab ) {
@@ -192,7 +193,7 @@ class Admin {
 					<div class="rule-group border rounded shadow p-3 mb-4">
 						<div class="d-flex justify-content-between align-items-center mb-3">
 							<div class="d-flex align-items-center">
-								<a href="javascript:void(0)"><i class="text-secondary fas fa-bars"></i></a>
+								<a href="javascript:void(0)"><i class="text-secondary dashicons dashicons-menu text-decoration-none"></i></a>
 							</div>
 							<div class="d-flex align-items-center">
 								<a class="btn btn-sm remove-group-btn" title="<?php echo esc_attr( 'Remove Group', 'wc-thanks-redirect' ); ?>">

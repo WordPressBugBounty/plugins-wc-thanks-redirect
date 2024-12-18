@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.1.9
+ * Version:           4.2.0
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -20,7 +20,7 @@
  * Requires PHP:      7.4
  * Requires at least: 6.2
  * WC requires at least: 8.2
- * WC tested up to: 9.4
+ * WC tested up to: 9.5
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
@@ -30,12 +30,12 @@ use NeeBPlugins\Wctr\Api as WctrApi;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.1.9' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.0' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
 defined( 'WCTR_PLUGIN_URL' ) || define( 'WCTR_PLUGIN_URL', plugin_dir_url( WCTR_FILE ) );
-defined( 'WCTR_TEXTDOMAIN' ) || define( 'WCTR_TEXTDOMAIN', 'wc-thanks-redirect' );
+defined( 'WCTR_KB_URL' ) || define( 'WCTR_KB_URL', 'https://nitin247.com/docs/thank-you-page/' );
 
 // Include dependencies
 if ( file_exists( WCTR_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
@@ -61,15 +61,12 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 					'is_premium'       => false,
 					'is_premium_only'  => false,
 					'has_addons'       => false,
-					'has_paid_plans'   => false,
+					'has_paid_plans'   => true,
 					'has_affiliation'  => 'selected',
 					'menu'             => array(
-						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',
-						'support'    => false,
-						'account'    => false,
+						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',						
 					),
-					'enable_anonymous' => true,
-					'require_optin'    => false,
+					'anonymous_mode' => true,					
 				)
 			);
 
@@ -79,13 +76,9 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 	}
 
 	// Init Freemius.
-	$freemius_init = wc_thanks_redirect_fs();
+	wc_thanks_redirect_fs();
 	// Signal that SDK was initiated.
-	do_action( 'wc_thanks_redirect_fs_loaded' );
-
-	if ( $freemius_init->is_free_plan() ) {
-		$freemius_init->skip_connection();
-	}
+	do_action( 'wc_thanks_redirect_fs_loaded' );	
 }
 
 if ( ! class_exists( 'WCTR_Plugin' ) ) {
@@ -157,10 +150,12 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 		}
 
 		public function action_links( $links ) {
-			$links = array_merge(
+			$upgrade_url = wc_thanks_redirect_fs()->get_upgrade_url();
+			$links       = array_merge(
 				array(
 					'<a href="' . esc_url( site_url() . '/wp-admin/admin.php?page=wc-settings&tab=products&section=wctr' ) . '">' . __( 'Settings', 'wc-thanks-redirect' ) . '</a>',
-					'<a target="_blank" style="color:green;font-weight:bold;" href="' . esc_url( 'https://bit.ly/2RwaIQB' ) . '">' . __( 'Go PRO!', 'wc-thanks-redirect' ) . '</a>',
+					'<a style="color:green;font-weight:bold;" href="' . esc_url( $upgrade_url ) . '">' . __( 'Go PRO!', 'wc-thanks-redirect' ) . '</a>',
+					'<a target="_blank" href="' . esc_url( WCTR_KB_URL ) . '">' . __( 'Documentation', 'wc-thanks-redirect' ) . '</a>',
 					'<a target="_blank" href="' . esc_url( 'https://nitin247.com/support/' ) . '">' . __( 'Support Desk', 'wc-thanks-redirect' ) . '</a>',
 				),
 				$links
