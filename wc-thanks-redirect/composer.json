@@ -17,6 +17,19 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
-        "freemius/wordpress-sdk": "^2.10.1"
-    }
+        "freemius/wordpress-sdk": "2.11.0"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "freemius/wordpress-sdk",
+                "version": "2.11.0",
+                "dist": {
+                    "type": "zip",
+                    "url": "/tmp/wordpress-sdk-2.11.0.zip"
+                }
+            }
+        }
+    ]
 }
