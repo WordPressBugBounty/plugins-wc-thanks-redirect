@@ -69,6 +69,7 @@ class Admin {
 	}
 
 	public function settings_page( $settings, $current_section ) {
+		ob_start();
 
 		global $wc_thanks_redirect_fs;
 
@@ -271,6 +272,8 @@ class Admin {
 		} else {
 			return $settings;
 		}
+
+		ob_get_clean();
 
 	}
 

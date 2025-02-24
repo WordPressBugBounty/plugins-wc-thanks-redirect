@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page,woocommerce thank you,woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.7
-Stable tag: 4.2.1
-Version: 4.2.1
+Stable tag: 4.2.2
+Version: 4.2.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -236,8 +236,10 @@ Code Improvements.
 Documentation updated.
 ** V 4.2.1 **
 SDK updated.
+** V 4.2.2 **
+Fix warning.
 
 == Upgrade Notice ==
 
-= 4.2.1 = 
-SDK update
+= 4.2.2 = 
+Fix Warning
