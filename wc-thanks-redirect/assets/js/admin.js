@@ -392,7 +392,7 @@ jQuery(function ($) {
         } else {
             addGroup();
         }
-    }).complete(function () {
+    }).always(function () {
         $('#loading-message').remove();
         $('#button-container').show();
     }).fail(function () {

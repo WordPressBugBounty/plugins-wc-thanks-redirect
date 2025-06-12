@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.2.2
+ * Version:           4.2.3
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -20,7 +20,7 @@
  * Requires PHP:      7.4
  * Requires at least: 6.2
  * WC requires at least: 8.2
- * WC tested up to: 9.6
+ * WC tested up to: 9.9
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
@@ -30,7 +30,7 @@ use NeeBPlugins\Wctr\Api as WctrApi;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.2' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.3' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -55,20 +55,20 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 
 			$wc_thanks_redirect_fs = fs_dynamic_init(
 				array(
-					'id'               => '5290',
-					'slug'             => 'wc-thanks-redirect',
-					'type'             => 'plugin',
-					'public_key'       => 'pk_a2ce319e73a5895901df9374e2a05',
-					'is_premium'       => false,
-					'is_premium_only'  => false,
-					'has_addons'       => false,
-					'has_paid_plans'   => true,
-					'has_affiliation'  => false,
-					'menu'             => array(
-						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',	
-						'support'=>false,					
+					'id'              => '5290',
+					'slug'            => 'wc-thanks-redirect',
+					'type'            => 'plugin',
+					'public_key'      => 'pk_a2ce319e73a5895901df9374e2a05',
+					'is_premium'      => false,
+					'is_premium_only' => false,
+					'has_addons'      => false,
+					'has_paid_plans'  => true,
+					'has_affiliation' => false,
+					'menu'            => array(
+						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',
+						'support'    => false,
 					),
-					'anonymous_mode' => true,					
+					'anonymous_mode'  => true,
 				)
 			);
 
@@ -80,7 +80,14 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 	// Init Freemius.
 	wc_thanks_redirect_fs();
 	// Signal that SDK was initiated.
-	do_action( 'wc_thanks_redirect_fs_loaded' );	
+	do_action( 'wc_thanks_redirect_fs_loaded' );
+
+	wc_thanks_redirect_fs()->add_filter(
+		'plugin_icon',
+		function () {
+			return WCTR_PLUGIN_DIR . 'assets/img/icon.png';
+		}
+	);
 }
 
 if ( ! class_exists( 'WCTR_Plugin' ) ) {
@@ -111,8 +118,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			add_action( 'init', array( $this, 'before_plugin_load' ) );
 			// Run plugin
 			add_action( 'init', array( $this, 'run_plugin' ) );
-			// Load translations
-			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 			// HPOS Support
 			add_action( 'before_woocommerce_init', array( $this, 'hpos_support' ) );
 			// PRO Plugin Action links
@@ -139,10 +144,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			$wctrfront = WctrFront::get_instance(); // phpcs:ignore
 			// Initialize REST API Handler
 			$wctrapi = WctrApi::get_instance(); // phpcs:ignore
-		}
-
-		public function load_textdomain() {
-			load_plugin_textdomain( 'wc-thanks-redirect', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		}
 
 		public function hpos_support() {
