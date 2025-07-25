@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.3
-Version: 4.2.3
+Stable tag: 4.2.4
+Version: 4.2.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -98,6 +98,10 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 
 16- WooCommerce Checkout Manager compatibility
 
+17 - **Optionally, you can choose between a classic or modern template for order details:**
+* For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
+* For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
+
 For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/">documentation page</a>.
 
 **Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!**
@@ -187,59 +191,88 @@ Enjoy using the Thank you page for WooCommerce plugin!
 
 == Changelog ==
 
-** V 1.0 **
-Stable initial release
-** V 2.0 **
-Plugin updated for per product redirect urls.
-** V 2.1 **
-Fixed issue with plugin stopped working suddenly.
-** V 2.2 **
-Fixed issue with plugin double redirect.
-** V 2.3 **
-Updated plugin name for compliance.
-** V 2.4 **
-Plugin update to support Order Details on Thank You page.
-** V 2.4.1 **
-Plugin update to support Order Number in order details on Thank You page.
-** V 3.0 **
-Major plugin update with various bug fixes and new features.More features coming very soon
+**V 4.2.4**
+Various fixes.
+
+**V 4.2.3**
+AJAX Fix.
+
+**V 4.2.2**
+Fix warning.
+
+**V 4.2.1**
+SDK updated.
+
+**V 4.2.0**
+Documentation updated.
+
+**V 4.1.9**
+Code Improvements.
+
+**V 4.1.8**
+Bug fixes & improvements.
+
+**V 4.1.7**
+SDK Update, FIX fatal error.
+
+**V 4.1.6**
+Approve Orders for WooCommerce compatibility added.
+
+**V 4.1.4**
+Code Optimizations.
+
+**V 4.1.3**
+FIX Order id in multilanguage.
+
+**V 4.1.2**
+SDK Update.
+
+**V 4.1.1**
+Upgrade URL updated.
+
+**V 4.1.0**
+Vulnerability Fix. Replaced order_id with order_key for order details security.
+
+**V 4.0.2**
+Fix order details not displayed on thank you page.
+
+**V 4.0.1**
+Added setting to enable / disable template redirect hook, to for compatibility with Autocomplete Order for WooCommerce.
+
+**V 4.0.0**
+Plugin renamed to "Thank You Page for WooCommerce"
+
+**V 3.1**
+Security Fix release
+
+**V 3.0**
+Major plugin update with various bug fixes and new features. More features coming very soon.
 3.0 a) Various text changes
 3.0 b) Bug fix - Redirect to first available Thank You Page if multiple products in WooCommerce Order. This fix the issue if last product does not have a redirect page then it will redirect to first available page.
 3.0 c) Language translation is now possible for plugin, you may use POT file for translating the plugin in your language
-** V 3.1 **
-Security Fix release
-** V 4.0.0 **
-Plugin renamed to "Thank You Page for WooCommerce"
-** V 4.0.1 **
-Added setting to enable / disable template redirect hook, to for compatibility with Autocomplete Order for WooCommerce.
-** V 4.0.2 **
-Fix order details not displayed on thank you page.
-** V 4.1.0 **
-Vulnerability Fix. Replaced order_id with order_key for order details security.
-** V 4.1.1 **
-Upgrade URL updated.
-** V 4.1.2 **
-SDK Update.
-** V 4.1.3 **
-FIX Order id in multilanguage.
-** V 4.1.4 **
-Code Optimizations.
-** V 4.1.6 **
-Approve Orders for WooCommerce compatibility added.
-** V 4.1.7 **
-SDK Update, FIX fatal error.
-** V 4.1.8 **
-Bug fixes & improvements.
-** V 4.1.9 **
-Code Improvements.
-** V 4.2.0 **
-Documentation updated.
-** V 4.2.1 **
-SDK updated.
-** V 4.2.2 **
-Fix warning.
+
+**V 2.4.1**
+Plugin update to support Order Number in order details on Thank You page.
+
+**V 2.4**
+Plugin update to support Order Details on Thank You page.
+
+**V 2.3**
+Updated plugin name for compliance.
+
+**V 2.2**
+Fixed issue with plugin double redirect.
+
+**V 2.1**
+Fixed issue with plugin stopped working suddenly.
+
+**V 2.0**
+Plugin updated for per product redirect urls.
+
+**V 1.0**
+Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.2 = 
-Fix Warning
+= 4.2.3 = 
+AJAX Fix
