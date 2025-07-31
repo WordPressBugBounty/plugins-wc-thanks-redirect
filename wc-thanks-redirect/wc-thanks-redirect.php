@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.2.4
+ * Version:           4.2.5
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -30,7 +30,7 @@ use NeeBPlugins\Wctr\Api as WctrApi;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.4' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.5' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -180,7 +180,6 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 
 /* Get Order ID from request */
 function wc_thanks_redirect_get_order_id() {
-	global $wp;
 
 	$order_id = 0;
 
@@ -191,9 +190,7 @@ function wc_thanks_redirect_get_order_id() {
 		$order_key = ! empty( $_GET['order_key'] ) ? sanitize_text_field( $_GET['order_key'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$order_id  = wc_get_order_id_by_order_key( $order_key );
 	} else {
-		$current_url = home_url( add_query_arg( array(), $wp->request ) );
-		$parsed_url  = wp_parse_url( $current_url );
-		$order_id    = array_pop( explode( '/', $parsed_url['path'] ) );
+		$order_id = 0;
 	}
 
 	return $order_id;

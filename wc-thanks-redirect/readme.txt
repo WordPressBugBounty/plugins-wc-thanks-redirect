@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.4
-Version: 4.2.4
+Stable tag: 4.2.5
+Version: 4.2.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -62,6 +62,10 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 12- Compatible with <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a>, enabling **Order Approval** allowing shop owners to **approve** or **reject** orders before payment is processed.
 
+13- GTM DataLayer for Google Analytics
+
+14- FBQ Track Purchase
+
 
 **PRO Features**
 
@@ -80,25 +84,23 @@ This plugin is open for new feature request. Just create a request in plugin sup
 7- URL Personalization **[order_number]**,**[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
 In the “Thank You URL” field in the product? put like this https://site.com/thanks?client_email=[billing_email]
 
-8- eCommerce DataLayer for Analytics
+8- Thank you page based on Payment Gateway
 
-9- Thank you page based on Payment Gateway
+9- Thank You Page based on User Role
 
-10- Thank You Page based on User Role
+10- Thank you page based on Product Type
 
-11- Thank you page based on Product Type
+11- Thank You Page based on Product Category
 
-12- Thank You Page based on Product Category
+12- Thank You Page based on Product Tags
 
-13- Thank You Page based on Product Tags
+13- Thank You Page based on Product Variation
 
-14- Thank You Page based on Product Variation
+14- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
 
-15- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
+15- WooCommerce Checkout Manager compatibility
 
-16- WooCommerce Checkout Manager compatibility
-
-17 - **Optionally, you can choose between a classic or modern template for order details:**
+16 - **Optionally, you can choose between a classic or modern template for order details:**
 * For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
 * For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
 
@@ -191,6 +193,10 @@ Enjoy using the Thank you page for WooCommerce plugin!
 
 == Changelog ==
 
+**V 4.2.5**
+GTM Datalayer.
+FBQ Track Purchase
+
 **V 4.2.4**
 Various fixes.
 
@@ -274,5 +280,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.3 = 
-AJAX Fix
+= 4.2.5 = 
+eCommerce Tracking
