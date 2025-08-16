@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.5
-Version: 4.2.5
+Stable tag: 4.2.6
+Version: 4.2.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,7 +64,7 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 13- GTM DataLayer for Google Analytics
 
-14- FBQ Track Purchase
+14- Compatibility with PixelYourSite Facebook
 
 
 **PRO Features**
@@ -193,6 +193,9 @@ Enjoy using the Thank you page for WooCommerce plugin!
 
 == Changelog ==
 
+**V 4.2.6**
+Compatibility with PixelYourSite Facebook
+
 **V 4.2.5**
 GTM Datalayer.
 FBQ Track Purchase
@@ -280,5 +283,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.5 = 
-eCommerce Tracking
+= 4.2.6 = 
+Compatibility with PixelYourSite Facebook

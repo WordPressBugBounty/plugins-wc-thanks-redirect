@@ -7,7 +7,8 @@
 
 namespace NeeBPlugins\Wctr;
 
-use NeeBPlugins\Wctr\Modules\Rules as TY_rules;
+// use NeeBPlugins\Wctr\Modules\Rules as TY_rules;
+use NeeBPlugins\Wctr\Compatibility\PYS_Tracking as Wctr_PYS;
 
 class Front {
 
@@ -34,6 +35,8 @@ class Front {
 		add_action( 'woocommerce_thankyou', array( $this, 'safe_redirect' ), 99, 1 );
 		/* Add action for Footer */
 		add_action( 'wp_footer', array( $this, 'datalayer_purchase_event' ) );
+		// Load tracking
+		$this->load_tracking();
 	}
 
 	/**
@@ -291,13 +294,6 @@ class Front {
 				'quantity'      => $item->get_quantity(),
 			);
 			$items_data[] = $item_data;
-
-			// Data for Facebook Pixel
-			$fb_content_ids[] = $product->get_sku() ? $product->get_sku() : (string) $product->get_id();
-			$fb_contents[]    = array(
-				'id'       => $product->get_sku() ? $product->get_sku() : (string) $product->get_id(),
-				'quantity' => $item->get_quantity(),
-			);
 		}
 
 		// DataLayer variables
@@ -326,18 +322,7 @@ class Front {
 					coupon: '<?php echo esc_js( $coupon_code ); ?>',
 					items: <?php echo wp_json_encode( $items_data ); ?>
 				}
-			});
-
-			// Facebook Pixel Purchase Event
-			// Ensure the fbq function is loaded before calling it
-			if (typeof fbq === 'function') {
-				fbq('track', 'Purchase', {
-					value: <?php echo esc_js( $value ); ?>,
-					currency: '<?php echo esc_js( $currency ); ?>',
-					content_type: 'product',
-					contents: <?php echo wp_json_encode( $fb_contents ); ?>
-				});
-			}
+			});						
 		</script>
 		<?php
 	}
@@ -361,5 +346,17 @@ class Front {
 		}
 
 		return $brand;
+	}
+
+	/**
+	 * Load Tracking.
+	 *
+	 * @since 4.2.6
+	 * @return void
+	 */
+	public function load_tracking() {
+		if ( isset( $_GET['order_key'] ) && class_exists( '\PixelYourSite\PYS' ) ) { // phpcs:ignore 
+			Wctr_PYS::get_instance();
+		}
 	}
 }
