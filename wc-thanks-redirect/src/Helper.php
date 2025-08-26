@@ -84,6 +84,12 @@ class Helper {
 		return $page_info;
 	}
 
+	/**
+	 * Get payment gateways
+	 *
+	 * @since 4.1.6
+	 * @return array
+	 */
 	public function get_payment_gateways() {
 		// Get available payment gateways
 		$available_gateways = WC()->payment_gateways()->get_available_payment_gateways();
@@ -104,6 +110,14 @@ class Helper {
 		return $gateway_info;
 	}
 
+	/**
+	 * Search products
+	 *
+	 * @since 4.1.6
+	 * @param string $keyword
+	 * @param bool $variations_only
+	 * @return array
+	 */
 	public static function search_product( $keyword = '', $variations_only = false ) {
 		global $wpdb;
 		$products = array();
@@ -187,6 +201,14 @@ class Helper {
 		return $products;
 	}
 
+	/**
+	 * Search categories
+	 *
+	 * @since 4.1.6
+	 * @param string $search_term
+	 * @param string $post_type
+	 * @return array
+	 */
 	public static function search_categories( $search_term, $post_type = 'post' ) {
 
 		// Get categories that match the search term
@@ -210,6 +232,14 @@ class Helper {
 		return $results;
 	}
 
+	/**
+	 * Search tags
+	 *
+	 * @since 4.1.6
+	 * @param string $search_term
+	 * @param string $post_type
+	 * @return array
+	 */
 	public static function search_tags( $search_term, $post_type = 'product' ) {
 
 		// Sanitize the search term
@@ -241,6 +271,52 @@ class Helper {
 		return $results;
 	}
 
+	/**
+	 * Search posts
+	 *
+	 * @since 4.1.6
+	 * @param string $search_term
+	 * @param string $post_type
+	 * @return array
+	 */
+	public static function search_posts( $search_term, $post_type = 'product' ) {
+
+		// Sanitize the search term
+		$search_term = sanitize_text_field( $search_term );
+
+		// Determine the taxonomy based on the post type
+		$taxonomy = ( 'product' === $post_type ) ? 'product_tag' : 'post_tag';
+
+		// Get tags that match the search term
+		$tags = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'name__like' => $search_term,
+				'hide_empty' => false,
+			)
+		);
+
+		$results = array();
+
+		if ( ! empty( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$results[] = array(
+					'id'   => $tag->term_id,
+					'text' => $tag->name,
+				);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Product details
+	 *
+	 * @since 4.1.6
+	 * @param array $ids
+	 * @return array
+	 */
 	public static function product_details( $ids ) {
 		$products = array();
 		// Get the product IDs from the request
@@ -267,11 +343,18 @@ class Helper {
 			return $products;
 
 		}
-
 	}
 
+	/**
+	 * Term details
+	 *
+	 * @since 4.1.6
+	 * @param array $ids
+	 * @param string $taxonomy
+	 * @return array
+	 */
 	public static function term_details( $ids, $taxonomy = 'product_cat' ) {
-		
+
 		$results  = array();
 		$term_ids = $ids;
 
@@ -292,9 +375,17 @@ class Helper {
 		}
 
 		return $results;
-
 	}
 
+	/**
+	 * Shorten array
+	 *
+	 * @since 4.1.6
+	 * @param array $input_array
+	 * @param string $key_field
+	 * @param string $value_field
+	 * @return array
+	 */
 	public function shorten( $input_array, $key_field, $value_field ) {
 		$shortened_array = array();
 
@@ -306,5 +397,4 @@ class Helper {
 
 		return $shortened_array;
 	}
-
 }

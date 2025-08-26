@@ -31,6 +31,11 @@ class Rules {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @since 4.1.6
+	 */
 	public function __construct() {
 		// Define options and option groups
 		$this->options = array(
@@ -139,6 +144,12 @@ class Rules {
 		return $html;
 	}
 
+	/**
+	 * Create dropdown pages
+	 *
+	 * @since 4.1.6
+	 * @return string $html
+	 */
 	public function create_dropdown_pages() {
 		$html  = '<select name="rule_pages" class="form-select url-dropdown" required>';
 		$html .= '<option value="">' . esc_html__( 'Select Page', 'thank-you-page-pro' ) . '</option>';

@@ -29,6 +29,11 @@ class Admin {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @since 4.1.6
+	 */
 	public function __construct() {
 
 		// Add submenu under woocommerce
@@ -47,9 +52,15 @@ class Admin {
 		add_action( 'admin_footer', array( $this, 'remove_woocommerce_save_button' ) );
 		// Add Filter to append body class
 		add_action( 'admin_body_class', array( $this, 'admin_body_class' ) );
-
 	}
 
+	/**
+	 * Submenu entry
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return void
+	 */
 	public function submenu_entry() {
 		add_submenu_page(
 			'woocommerce',
@@ -68,6 +79,13 @@ class Admin {
 		return $sections;
 	}
 
+	/**
+	 * Settings Page
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return string ob_get_clean
+	 */
 	public function settings_page( $settings, $current_section ) {
 		ob_start();
 
@@ -78,10 +96,12 @@ class Admin {
 		$tab = isset( $_GET['wctr-tab'] ) ? $_GET['wctr-tab'] : $default_tab; // phpcs:ignore
 		$tab = str_replace( 'wctr-', '', $tab );
 
-		if ( $current_section === 'wctr' ) { //phpcs:ig
+		if ( $current_section === 'wctr' ) { //phpcs:ignore
 
 			$settings_url = $setting_fields = $settings_end = array();
 
+			$wctr_pys_active = class_exists( '\PixelYourSite\PYS' ) ? __( 'PixelYourSite integration is active, nothing needs to be done!', 'wc-thanks-redirect-pro' ) :__( 'Activate PixelYourSite to enable automatic PixelYourSite Integration', 'wc-thanks-redirect-pro' );			
+			
 			$settings_tab = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=settings' );
 			$rules_tab    = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=rules' );
 
@@ -144,8 +164,17 @@ class Admin {
 				);
 
 				$settings_url[] = array(
+					'name'     => __( 'PixelYourSite Integration', 'wc-thanks-redirect-pro' ),
+					'desc_tip' => __( 'This will automatically activate the PixelYourSite Integration with Thank You Page', 'wc-thanks-redirect-pro' ),
+					'type'     => 'checkbox',
+					'default'  => class_exists( '\PixelYourSite\PYS' ) ? 'yes' : 'no',
+					'desc'     => $wctr_pys_active,
+					'disabled' => true,
+				);
+
+				$settings_url[] = array(
 					'name'              => __( 'WPML Translated URL', 'wc-thanks-redirect' ),
-					'desc_tip'          => __( 'WPML Translated URL is a PAID Feature. Please upgrade to <a href="' . esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ) . '">PRO</a>', 'wc-thanks-redirect' ),
+					'desc_tip'          => __( 'WPML Translated URL is a PAID Feature. Please upgrade to <a href="' . esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ) . '">Thank You Page PRO</a>', 'wc-thanks-redirect' ),
 					'id'                => 'wctr_wpml_active',
 					'type'              => 'checkbox',
 					'default'           => 'no',
@@ -274,9 +303,15 @@ class Admin {
 		}
 
 		ob_get_clean();
-
 	}
 
+	/**
+	 * Save custom settings
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return void
+	 */
 	public function save_custom_settings( $post_id ) {
 
 		// save custom fields
@@ -303,9 +338,16 @@ class Admin {
 		}
 	}
 
+	/**
+	 * Admin Scripts
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return void
+	 */
 	public function admin_scripts() {
 
-		if ( isset( $_GET['page'] ) && 'wc-settings' === $_GET['page'] && isset( $_GET['section'] ) && 'wctr' === $_GET['section'] ) {
+		if ( isset( $_GET['page'] ) && 'wc-settings' === $_GET['page'] && isset( $_GET['section'] ) && 'wctr' === $_GET['section'] ) { // phpcs:ignore
 
 			wp_enqueue_style( 'wctr-bootstrap', WCTR_PLUGIN_URL . 'assets/css/bootstrap.min.css', array(), '5.0.2' );
 			wp_enqueue_style( 'wctr-backend', WCTR_PLUGIN_URL . 'assets/css/admin.css', array(), WCTR_VERSION );
@@ -341,17 +383,31 @@ class Admin {
 		}
 	}
 
+	/**
+	 * Remove WooCommerce Save Button
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return void
+	 */
 	public function remove_woocommerce_save_button() {
 
-		if ( isset( $_GET['page'] ) && isset( $_GET['wctr-tab'] ) && 'wc-settings' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && isset( $_GET['wctr-tab'] ) && 'wc-settings' === $_GET['page'] ) { // phpcs:ignore
 			echo '<style> .notice, .update-nag { display: none !important; } </style>';
 
-			if ( 'rules' === $_GET['wctr-tab'] ) {
+			if ( 'rules' === $_GET['wctr-tab'] ) { // phpcs:ignore
 				echo '<style> .woocommerce-save-button { display: none;	} </style>';
 			}
 		}
 	}
 
+	/**
+	 * Settings products page
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return void
+	 */
 	public function settings_products_page() {
 
 		echo '<div class="options_group">';
@@ -395,9 +451,15 @@ class Admin {
 		echo '</div>';
 	}
 
+	/**
+	 * Add body class
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return string $classes
+	 */
 	public function admin_body_class( $classes ) {
 		$classes .= ' wctr-admin';
 		return $classes;
 	}
-
 }

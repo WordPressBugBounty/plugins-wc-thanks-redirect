@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.2.6
+ * Version:           4.2.7
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -26,11 +26,12 @@
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
 use NeeBPlugins\Wctr\Front as WctrFront;
 use NeeBPlugins\Wctr\Api as WctrApi;
+use NeeBPlugins\Wctr\Compatibility\SandBoxPaymentBlocksSupport as WCTR_BlocksSupport;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.6' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.7' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -113,6 +114,11 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Constructor
+		 *
+		 * @since 4.1.7
+		 */
 		public function __construct() {
 			// Init plugin
 			add_action( 'init', array( $this, 'before_plugin_load' ) );
@@ -122,8 +128,17 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			add_action( 'before_woocommerce_init', array( $this, 'hpos_support' ) );
 			// PRO Plugin Action links
 			add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
+			// Hook the custom function to the 'woocommerce_blocks_loaded' action
+			add_action( 'woocommerce_blocks_loaded', array( $this, 'sandbox_payment_gateway' ) );
+			// Hook the custom function to the 'woocommerce_blocks_loaded' action
+			add_action( 'plugins_loaded', array( $this, 'load_backend' ) );
 		}
 
+		/**
+		 * Before Plugin Load
+		 *
+		 * @since 4.1.7
+		 */
 		public function before_plugin_load() {
 
 			if ( ! class_exists( 'woocommerce' ) ) {
@@ -137,6 +152,11 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			}
 		}
 
+		/**
+		 * Run Plugin
+		 *
+		 * @since 4.1.7
+		 */
 		public function run_plugin() {
 			// Initialize Plugin Admin
 			$wctradmin = WctrAdmin::get_instance(); // phpcs:ignore		
@@ -146,12 +166,26 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			$wctrapi = WctrApi::get_instance(); // phpcs:ignore
 		}
 
+		/**
+		 * HPOS Support
+		 *
+		 * @since 4.1.7
+		 * @return void
+		 */
 		public function hpos_support() {
 			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 			}
 		}
 
+		/**
+		 * Action Links
+		 *
+		 * @param array $links
+		 *
+		 * @return array
+		 * @since 4.1.7
+		 */
 		public function action_links( $links ) {
 			$upgrade_url = wc_thanks_redirect_fs()->get_upgrade_url();
 			$links       = array_merge(
@@ -166,10 +200,57 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			return $links;
 		}
 
+		/**
+		 * Multisite admin notice
+		 *
+		 * @return void
+		 * @since 4.2.7
+		 * @access public
+		 */
 		public function multisite_admin_notice() {
 			echo '<div class="notice notice-error">';
 			echo '<p>' . wp_kses_post( __( 'Thank You Page for WooCommerce is not designed for Multisite, you may need to buy this short plugin. <a target="_blank" href="https://bit.ly/2RwaIQB">Thank You Page for WooCommerce PRO</a>!', 'wc-thanks-redirect' ) ) . '</p>';
 			echo '</div>';
+		}
+
+		/**
+		 * SandBox Payment Gateway
+		 *
+		 * @return void
+		 * @since 4.2.7
+		 * @access public
+		 */
+		public function sandbox_payment_gateway() {
+			// Check if the required class exists
+			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+				return;
+			}
+
+			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
+			add_action(
+				'woocommerce_blocks_payment_method_type_registration',
+				function ( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
+					// Register an instance of Pre Order Gateway
+					$payment_method_registry->register( new WCTR_BlocksSupport() );
+				}
+			);
+		}
+
+		/**
+		 * Load Backend
+		 *
+		 * @return void
+		 * @since 4.2.7
+		 * @access public
+		 */
+		public function load_backend() {
+			add_filter(
+				'woocommerce_payment_gateways',
+				function ( $gateways ) {
+					$gateways[] = 'NeeBPlugins\Wctr\Modules\SandBoxPayment';
+					return $gateways;
+				}
+			);
 		}
 	}
 

@@ -7,8 +7,8 @@
 
 namespace NeeBPlugins\Wctr;
 
-// use NeeBPlugins\Wctr\Modules\Rules as TY_rules;
 use NeeBPlugins\Wctr\Compatibility\PYS_Tracking as Wctr_PYS;
+use NeeBPlugins\Wctr\Modules\SandBoxPayment as WCTR_SandBoxPayment;
 
 class Front {
 
@@ -28,6 +28,11 @@ class Front {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @since 4.1.6
+	 */
 	public function __construct() {
 		/* Add Plugin shortcode */
 		add_shortcode( 'TRFW_ORDER_DETAILS', array( $this, 'shortcode_order_details' ) );
@@ -35,6 +40,8 @@ class Front {
 		add_action( 'woocommerce_thankyou', array( $this, 'safe_redirect' ), 99, 1 );
 		/* Add action for Footer */
 		add_action( 'wp_footer', array( $this, 'datalayer_purchase_event' ) );
+		// Add the SandBox Payment gateway to the list of available payment gateways
+		add_filter( 'woocommerce_payment_gateways', array( $this, 'add_sandbox_gateway' ) );
 		// Load tracking
 		$this->load_tracking();
 	}
@@ -191,6 +198,50 @@ class Front {
 
 		$order_status = $order->get_status();
 
+		$order_items = $order->get_items();
+		$redirects   = array();
+		$priority    = array();
+
+		foreach ($order_items as $key => $_item) { // phpcs:ignore
+			$product_id              = $_item->get_product_id();
+			$product_meta_thanks_url = get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true );
+
+			if ( ! empty( $product_meta_thanks_url ) ) {
+				$order_string  = "&order_key=$order_key";
+				$thank_you_url = wp_parse_url( get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true ) );
+				$url_priority  = get_post_meta( $product_id, 'wc_thanks_redirect_url_priority', true );
+
+				$product_thanks = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' ) . $order_string;
+				$product_failed = get_post_meta( $product_id, 'wc_thanks_redirect_custom_failure', true );
+
+				$priority['thankyou'] = $product_thanks;
+				$priority['failed']   = $product_failed;
+				$priority['priority'] = $url_priority;
+
+				$redirects[] = $priority;
+
+			}
+		}
+
+		if ( ! empty( $redirects ) ) {
+
+			array_multisort( array_column( $redirects, 'priority' ), SORT_ASC, $redirects );
+
+			if ( $order_status !== 'failed' ) {
+					// Check If URL is valid
+				if ( filter_var( $redirects[0]['thankyou'], FILTER_VALIDATE_URL ) ) {
+					wp_redirect( $redirects[0]['thankyou'] );
+					exit;
+				}
+			} else {
+				// Check If URL is valid
+				if ( filter_var( $redirects[0]['failed'], FILTER_VALIDATE_URL ) ) {
+					wp_redirect( $redirects[0]['failed'] );
+					exit;
+				}
+			}
+		}
+
 		if ( isset( $wctr_global ) && strtolower( $wctr_global ) === 'yes' ) {
 			$thank_you_url = get_option( 'wctr_thanks_redirect_url' );
 			$fail_url      = get_option( 'wctr_failed_redirect_url' );
@@ -209,51 +260,6 @@ class Front {
 			} else {
 				wp_redirect( $fail_url );
 				exit;
-			}
-		} else {
-
-			$order_items = $order->get_items();
-			$redirects   = array();
-			$priority    = array();
-
-			foreach ($order_items as $key => $_item) { // phpcs:ignore
-				$product_id              = $_item->get_product_id();
-				$product_meta_thanks_url = get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true );
-
-				if ( ! empty( $product_meta_thanks_url ) ) {
-					$order_string  = "&order_key=$order_key";
-					$thank_you_url = wp_parse_url( get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true ) );
-					$url_priority  = get_post_meta( $product_id, 'wc_thanks_redirect_url_priority', true );
-
-					$product_thanks = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' ) . $order_string;
-					$product_failed = get_post_meta( $product_id, 'wc_thanks_redirect_custom_failure', true );
-
-					$priority['thankyou'] = $product_thanks;
-					$priority['failed']   = $product_failed;
-					$priority['priority'] = $url_priority;
-
-					$redirects[] = $priority;
-
-				}
-			}
-
-			if ( ! empty( $redirects ) ) {
-
-				array_multisort( array_column( $redirects, 'priority' ), SORT_ASC, $redirects );
-
-				if ( $order_status !== 'failed' ) {
-						// Check If URL is valid
-					if ( filter_var( $redirects[0]['thankyou'], FILTER_VALIDATE_URL ) ) {
-						wp_redirect( $redirects[0]['thankyou'] );
-						exit;
-					}
-				} else {
-					// Check If URL is valid
-					if ( filter_var( $redirects[0]['failed'], FILTER_VALIDATE_URL ) ) {
-						wp_redirect( $redirects[0]['failed'] );
-						exit;
-					}
-				}
 			}
 		}
 	}
@@ -278,10 +284,8 @@ class Front {
 		}
 
 		// Fetch order data
-		$order_items    = $order->get_items();
-		$items_data     = array();
-		$fb_content_ids = array();
-		$fb_contents    = array();
+		$order_items = $order->get_items();
+		$items_data  = array();
 
     	foreach ( $order_items as $item_id => $item ) { // phpcs:ignore
 			$product      = $item->get_product();
@@ -358,5 +362,16 @@ class Front {
 		if ( isset( $_GET['order_key'] ) && class_exists( '\PixelYourSite\PYS' ) ) { // phpcs:ignore 
 			Wctr_PYS::get_instance();
 		}
+	}
+
+	/**
+	 * Add the SandBox gateway to the list of available payment gateways.
+	 *
+	 * @param array $gateways The list of available payment gateways.
+	 * @return array The list of available payment gateways with the SandBox gateway added.
+	 */
+	public function add_sandbox_gateway( $gateways ) {
+		$gateways[] = WCTR_SandBoxPayment::class;
+		return $gateways;
 	}
 }

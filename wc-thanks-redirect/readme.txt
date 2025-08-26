@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.6
-Version: 4.2.6
+Stable tag: 4.2.7
+Version: 4.2.7
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,7 +64,9 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 13- GTM DataLayer for Google Analytics
 
-14- Compatibility with PixelYourSite Facebook
+14- Compatible with **PixelYourSite** Facebook
+
+15- **SandBox Payment Gateway** only available to administrators for simulating test order
 
 
 **PRO Features**
@@ -101,8 +103,8 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 15- WooCommerce Checkout Manager compatibility
 
 16 - **Optionally, you can choose between a classic or modern template for order details:**
-* For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
-* For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
+For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
+For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
 
 For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/">documentation page</a>.
 
@@ -114,7 +116,7 @@ For complete documentation, please visit the <a target=_blank href="https://niti
 Check PRO Version for Wordpress Multisite here <a href="https://bit.ly/2RxRkT5">Thank You Page for WooCommerce PRO</a>
 
 **Supercharge Your WooCommerce Order Approval Process!**
-Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce plugin</a>
+Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a> plugin
 Easily **approve or reject orders** and streamline your workflow like never before.
 
 **Credits**
@@ -192,6 +194,11 @@ Enjoy using the Thank you page for WooCommerce plugin!
 6. Per Product Redirect URL with priority parameter
 
 == Changelog ==
+
+**V 4.2.7**
+SandBox Payment Gateway for test payments
+FIX per product redirect
+PixelYourSite integration indicator
 
 **V 4.2.6**
 Compatibility with PixelYourSite Facebook
@@ -283,5 +290,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.6 = 
-Compatibility with PixelYourSite Facebook
+= 4.2.7 =
+SandBox Payment Gateway + FIX per product redirect

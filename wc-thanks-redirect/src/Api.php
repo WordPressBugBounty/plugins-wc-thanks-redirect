@@ -48,9 +48,14 @@ class Api {
 			'rest_api_init',
 			array( $this, 'register_routes' )
 		);
-
 	}
 
+	/**
+	 * Register routes
+	 *
+	 * @since 4.1.6
+	 * @return void
+	 */
 	public function register_routes() {
 
 		register_rest_route(
@@ -144,9 +149,16 @@ class Api {
 				),
 			)
 		);
-
 	}
 
+	/**
+	 * Save TY Rules
+	 *
+	 * @since 4.1.6
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
 	public function save_ty_rules( \WP_REST_Request $request ) {
 
 		$posted_data = $request->get_params();
@@ -155,39 +167,64 @@ class Api {
 		update_option( $this->option, $tyrules );
 
 		return new \WP_REST_Response( $tyrules, 200 );
-
 	}
 
+	/**
+	 * Search product
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return array @products
+	 */
 	public function search_product() {
 
-		$keyword         = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
-		$variations_only = isset( $_GET['variations_only'] ) ? sanitize_text_field( $_GET['variations_only'] ) : false;
+		$keyword         = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : ''; // phpcs:ignore
+		$variations_only = isset( $_GET['variations_only'] ) ? sanitize_text_field( $_GET['variations_only'] ) : false; // phpcs:ignore
 
 		$products = Helper::search_product( $keyword, $variations_only );
 		return $products;
-
 	}
 
+	/**
+	 * Search category
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return array @products
+	 */
 	public function search_category() {
 
-		$keyword   = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
-		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : 'post';
+		$keyword   = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : ''; // phpcs:ignore
+		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : 'post'; // phpcs:ignore
 
 		$products = Helper::search_categories( $keyword, $post_type );
 		return $products;
-
 	}
 
+	/**
+	 * Search tags
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return array @products
+	 */
 	public function search_tags() {
 
-		$keyword   = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
-		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : 'post';
+		$keyword   = isset( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : ''; // phpcs:ignore
+		$post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : 'post'; // phpcs:ignore
 
 		$products = Helper::search_tags( $keyword, $post_type );
 		return $products;
-
 	}
 
+	/**
+	 * Product details
+	 *
+	 * @since 4.1.6
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return array \WP_REST_Response
+	 */
 	public function product_details( \WP_REST_Request $request ) {
 		// Get the product IDs from the request
 		$product_ids = $request->get_param( 'ids' );
@@ -216,6 +253,14 @@ class Api {
 		);
 	}
 
+	/**
+	 * Get post terms
+	 *
+	 * @since 4.1.6
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return array \WP_REST_Response
+	 */
 	public function get_postterms( \WP_REST_Request $request ) {
 		// Get the product IDs from the request
 		$term_ids = $request->get_param( 'ids' );
@@ -245,16 +290,27 @@ class Api {
 		);
 	}
 
+	/**
+	 * Fetch TY Rules
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return \WP_REST_Response
+	 */
 	public function fetch_ty_rules() {
 
 		$tyrules = get_option( $this->option, array() );
 		return new \WP_REST_Response( array( 'data' => $tyrules ), 200 );
-
 	}
 
+	/**
+	 * Get write api permission check
+	 *
+	 * @since 4.1.6
+	 *
+	 * @return boolean
+	 */
 	public function get_write_api_permission_check() {
 		return current_user_can( 'manage_options' ) ? true : false;
 	}
-
 }
-
