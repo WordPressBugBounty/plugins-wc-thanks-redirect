@@ -91,6 +91,11 @@ class Admin {
 
 		global $wc_thanks_redirect_fs;
 
+		// prevent loading tabs on Ajax and Rest Request
+		if ( wp_doing_ajax() || defined( 'REST_REQUEST' ) ) {
+			return $settings;
+		}
+
 		$default_tab = 'settings';
 
 		$tab = isset( $_GET['wctr-tab'] ) ? $_GET['wctr-tab'] : $default_tab; // phpcs:ignore
@@ -100,8 +105,8 @@ class Admin {
 
 			$settings_url = $setting_fields = $settings_end = array();
 
-			$wctr_pys_active = class_exists( '\PixelYourSite\PYS' ) ? __( 'PixelYourSite integration is active, nothing needs to be done!', 'wc-thanks-redirect-pro' ) :__( 'Activate PixelYourSite to enable automatic PixelYourSite Integration', 'wc-thanks-redirect-pro' );			
-			
+			$wctr_pys_active = class_exists( '\PixelYourSite\PYS' ) ? __( 'PixelYourSite integration is active, nothing needs to be done!', 'wc-thanks-redirect-pro' ) : __( 'Activate PixelYourSite to enable automatic PixelYourSite Integration', 'wc-thanks-redirect-pro' );
+
 			$settings_tab = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=settings' );
 			$rules_tab    = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=rules' );
 
@@ -181,6 +186,16 @@ class Admin {
 					'custom_attributes' => array( 'disabled' => 'disabled' ),
 					'desc'              => __( 'Activate WPML and its done!', 'wc-thanks-redirect' ),
 				);
+
+				$settings_url[] = array(
+					'name'              => __( 'PolyLang Translated URL', 'wc-thanks-redirect' ),
+					'desc_tip'          => __( 'PolyLang Translated URL is a PAID Feature. Please upgrade to <a href="' . esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ) . '">Thank You Page PRO</a>', 'wc-thanks-redirect' ),
+					'id'                => 'wctr_poly_active',
+					'type'              => 'checkbox',
+					'default'           => 'no',
+					'custom_attributes' => array( 'disabled' => 'disabled' ),
+					'desc'              => __( 'Activate PolyLang and its done!', 'wc-thanks-redirect' ),
+				);				
 
 				$settings_url[] = array(
 					'type' => 'sectionend',

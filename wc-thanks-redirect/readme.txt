@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.7
-Version: 4.2.7
+Stable tag: 4.2.8
+Version: 4.2.8
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -50,7 +50,7 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 6- Supports Multiple Products in Cart
 
-7- Supports Downloadable Products, downloadable product details on Thank You Page.
+7- Supports Downloadable products, downloadable product details on Thank You Page.
 
 8- Language Translations through POT, PO files.
 
@@ -62,7 +62,7 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 12- Compatible with <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a>, enabling **Order Approval** allowing shop owners to **approve** or **reject** orders before payment is processed.
 
-13- GTM DataLayer for Google Analytics
+13- **GTM DataLayer** for **Google Analytics**
 
 14- Compatible with **PixelYourSite** Facebook
 
@@ -71,13 +71,13 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 **PRO Features**
 
-1- <a href="https://bit.ly/2RxRkT5">Thank You Page for WooCommerce PRO</a> allows all the functionalities of Thank You Page but for Wordpress Multisite too.
+1- <a href="https://nitin247.com/plugin/thank-you-page-for-woocommerce/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">Thank You Page for WooCommerce PRO</a> allows all the functionalities of Thank You Page but for Wordpress Multisite too.
 
 2- Compatible with WooCommerce Subscriptions
 
 3- Compatible with WooCommerce Donations
 
-4- WPML Translated URL redirects
+4- **WPML** Translated URL redirects ( WPML Compatible )
 
 5- Trustpilot compatible
 
@@ -100,13 +100,15 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 
 14- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
 
-15- WooCommerce Checkout Manager compatibility
+15- **WooCommerce Checkout Manager** compatible
 
 16 - **Optionally, you can choose between a classic or modern template for order details:**
 For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
 For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
 
-For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/">documentation page</a>.
+4- **PolyLang** Translated URL redirects ( PolyLang compatible )
+
+For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">documentation page</a>.
 
 **Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!**
 <a href="https://nitin247.com/how-to-create-woocommerce-thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR" class="cta-button">
@@ -116,7 +118,7 @@ For complete documentation, please visit the <a target=_blank href="https://niti
 Check PRO Version for Wordpress Multisite here <a href="https://bit.ly/2RxRkT5">Thank You Page for WooCommerce PRO</a>
 
 **Supercharge Your WooCommerce Order Approval Process!**
-Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a> plugin
+Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">Approve Orders for WooCommerce</a> plugin
 Easily **approve or reject orders** and streamline your workflow like never before.
 
 **Credits**
@@ -194,6 +196,10 @@ Enjoy using the Thank you page for WooCommerce plugin!
 6. Per Product Redirect URL with priority parameter
 
 == Changelog ==
+
+= 4.2.8 =
+SDK Update
+FIX REST Request for WooCommerce
 
 **V 4.2.7**
 SandBox Payment Gateway for test payments
@@ -290,5 +296,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.7 =
-SandBox Payment Gateway + FIX per product redirect
+= 4.2.8 =
+SDK Update + FIX warning with REST_REQUEST
