@@ -385,7 +385,9 @@ class Admin {
 					'add_rule' => __( 'Add Rule', 'wc-thanks-redirect' ),
 				),
 				'lists'       => array(
-					'user_roles' => $helper_instance->get_roles_list(),
+					'payment_gateways' => $helper_instance->get_payment_gateways(),
+					'user_roles'       => $helper_instance->get_roles_list(),
+					'shipping_methods' => $helper_instance->get_shipping_methods(),
 				),
 			);
 

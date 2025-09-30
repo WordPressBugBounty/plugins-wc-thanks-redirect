@@ -2,16 +2,16 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Thank You Page for WooCommerce 4.2.3\n"
+"Project-Id-Version: Thank You Page for WooCommerce 4.2.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-thanks-redirect\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-28T16:55:26+05:30\n"
+"POT-Creation-Date: 2025-09-30T07:39:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-thanks-redirect\n"
 
 #. Plugin Name of the plugin
@@ -39,284 +39,350 @@ msgstr ""
 msgid "http://www.nitin247.com/"
 msgstr ""
 
-#: src/Admin.php:67
+#: src/Admin.php:78
 msgid "Thank You Page"
 msgstr ""
 
-#: src/Admin.php:103
+#: src/Admin.php:128
 msgid "Thank You Page Settings"
 msgstr ""
 
-#: src/Admin.php:105
+#: src/Admin.php:130
 msgid "The following options are used to configure Thank You Page"
 msgstr ""
 
-#: src/Admin.php:111
+#: src/Admin.php:136
 msgid "Global Redirect Settings"
 msgstr ""
 
-#: src/Admin.php:112
+#: src/Admin.php:137
 msgid "This will add redirect for orders"
 msgstr ""
 
-#: src/Admin.php:116
+#: src/Admin.php:141
 msgid "Enable Global Thank You Page"
 msgstr ""
 
-#: src/Admin.php:122
+#: src/Admin.php:147
 msgid "Thank You Page URL"
 msgstr ""
 
-#: src/Admin.php:125
+#: src/Admin.php:150
 msgid "Select URL"
 msgstr ""
 
-#: src/Admin.php:126
+#: src/Admin.php:151
 msgid "You can also enter the URL manually in the field below."
 msgstr ""
 
-#: src/Admin.php:131
+#: src/Admin.php:156
 msgid "This will add a redirect URL for successful orders"
 msgstr ""
 
-#: src/Admin.php:134
-#: src/Admin.php:143
+#: src/Admin.php:159
+#: src/Admin.php:168
 msgid "Enter Valid URL!"
 msgstr ""
 
-#: src/Admin.php:139
+#: src/Admin.php:164
 msgid "Order Failure Redirect URL"
 msgstr ""
 
-#: src/Admin.php:140
+#: src/Admin.php:165
 msgid "This will add a redirect URL for failed orders"
 msgstr ""
 
-#: src/Admin.php:147
+#: src/Admin.php:181
 msgid "WPML Translated URL"
 msgstr ""
 
-#: src/Admin.php:148
+#: src/Admin.php:182
 msgid "WPML Translated URL is a PAID Feature. Please upgrade to <a href=\""
 msgstr ""
 
-#: src/Admin.php:153
+#: src/Admin.php:187
 msgid "Activate WPML and its done!"
 msgstr ""
 
-#: src/Admin.php:171
+#: src/Admin.php:191
+msgid "PolyLang Translated URL"
+msgstr ""
+
+#: src/Admin.php:192
+msgid "PolyLang Translated URL is a PAID Feature. Please upgrade to <a href=\""
+msgstr ""
+
+#: src/Admin.php:197
+msgid "Activate PolyLang and its done!"
+msgstr ""
+
+#: src/Admin.php:215
 msgid "Thank You Page Rules"
 msgstr ""
 
-#: src/Admin.php:172
+#: src/Admin.php:216
 msgid "The options below facilitate the configuration of Thank You Page Rules for WooCommerce PRO, enhancing customer engagement and optimizing post-purchase communication."
 msgstr ""
 
-#: src/Admin.php:180
+#: src/Admin.php:224
 msgid "Add New Rule"
 msgstr ""
 
-#: src/Admin.php:184
+#: src/Admin.php:228
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: src/Admin.php:187
+#: src/Admin.php:231
 msgid "The Thank You Page Rules is a premium feature designed to enhance your experience. Upgrade now to access this powerful tool and take your business to the next level."
 msgstr ""
 
-#: src/Admin.php:206
+#: src/Admin.php:250
 msgid "Page URL"
 msgstr ""
 
-#: src/Admin.php:211
+#: src/Admin.php:255
 msgid "You can select a URL from the dropdown or enter a custom URL."
 msgstr ""
 
-#: src/Admin.php:214
+#: src/Admin.php:258
 msgid "Add Condition"
 msgstr ""
 
-#: src/Admin.php:233
+#: src/Admin.php:277
 msgid "Select a value"
 msgstr ""
 
-#: src/Admin.php:238
+#: src/Admin.php:282
 msgid "Select multiple values"
 msgstr ""
 
-#: src/Admin.php:244
+#: src/Admin.php:288
 msgid "AND"
 msgstr ""
 
-#: src/Admin.php:245
+#: src/Admin.php:289
 msgid "OR"
 msgstr ""
 
-#: src/Admin.php:327
+#: src/Admin.php:384
 msgid "Page Url"
 msgstr ""
 
-#: src/Admin.php:328
+#: src/Admin.php:385
 msgid "Add Rule"
 msgstr ""
 
-#: src/Admin.php:363
+#: src/Admin.php:436
 msgid "Thank You URL"
 msgstr ""
 
-#: src/Admin.php:366
-#: src/Admin.php:378
+#: src/Admin.php:439
+#: src/Admin.php:451
 msgid "Enter Valid URL."
 msgstr ""
 
-#: src/Admin.php:375
+#: src/Admin.php:448
 msgid "Failure Redirect"
 msgstr ""
 
-#: src/Admin.php:387
+#: src/Admin.php:460
 msgid "Redirect Priority"
 msgstr ""
 
-#: src/Admin.php:390
+#: src/Admin.php:463
 msgid "Lower number means higher priority, leave empty if not required"
 msgstr ""
 
-#: src/Api.php:66
+#: src/Api.php:71
 msgid "Thank You Rules"
 msgstr ""
 
-#: src/Front.php:68
-msgid "Order received"
+#: src/Compatibility/SandBoxPaymentBlocksSupport.php:85
+msgid "Sandbox Payment (Test Only)"
 msgstr ""
 
-#: src/Front.php:74
-msgid "Order number"
+#: src/Compatibility/SandBoxPaymentBlocksSupport.php:86
+#: src/Modules/SandBoxPayment.php:38
+#: src/Modules/SandBoxPayment.php:74
+#: assets/js/wctr-sandbox-block.js:4
+msgid "This payment method is only available to administrators for simulating test orders."
 msgstr ""
 
-#: src/Front.php:80
-msgid "Date"
+#: src/Compatibility/SandBoxPaymentBlocksSupport.php:87
+msgid "This order was placed using the Sandbox Payment Gateway (Admin only)."
 msgstr ""
 
 #: src/Front.php:86
+msgid "Order received"
+msgstr ""
+
+#: src/Front.php:92
+msgid "Order number"
+msgstr ""
+
+#: src/Front.php:98
+msgid "Date"
+msgstr ""
+
+#: src/Front.php:104
 msgid "Name"
 msgstr ""
 
-#: src/Front.php:90
+#: src/Front.php:108
 msgid "Payment Method"
 msgstr ""
 
-#: src/Front.php:94
+#: src/Front.php:112
 msgid "Order details"
 msgstr ""
 
-#: src/Front.php:100
+#: src/Front.php:118
 msgid "Product"
 msgstr ""
 
-#: src/Front.php:101
+#: src/Front.php:119
 msgid "Total"
 msgstr ""
 
-#: src/Front.php:141
+#: src/Front.php:159
 msgid "Note"
 msgstr ""
 
-#: src/Modules/Rules.php:38
+#: src/Modules/Rules.php:43
 msgid "Product "
 msgstr ""
 
-#: src/Modules/Rules.php:39
+#: src/Modules/Rules.php:44
 msgid "Product Variation"
 msgstr ""
 
-#: src/Modules/Rules.php:40
+#: src/Modules/Rules.php:45
 msgid "Product Category"
 msgstr ""
 
-#: src/Modules/Rules.php:41
+#: src/Modules/Rules.php:46
 msgid "Product Tag"
 msgstr ""
 
-#: src/Modules/Rules.php:44
+#: src/Modules/Rules.php:49
 msgid "User Role "
 msgstr ""
 
-#: src/Modules/Rules.php:51
-#: src/Modules/Rules.php:59
+#: src/Modules/Rules.php:62
+#: src/Modules/Rules.php:70
 msgid "Includes"
 msgstr ""
 
-#: src/Modules/Rules.php:52
-#: src/Modules/Rules.php:60
+#: src/Modules/Rules.php:63
+#: src/Modules/Rules.php:71
 msgid "Does Not Include"
 msgstr ""
 
-#: src/Modules/Rules.php:57
-#: src/Modules/Rules.php:69
+#: src/Modules/Rules.php:68
+#: src/Modules/Rules.php:80
 msgid "Is"
 msgstr ""
 
-#: src/Modules/Rules.php:58
-#: src/Modules/Rules.php:70
+#: src/Modules/Rules.php:69
+#: src/Modules/Rules.php:81
 msgid "Is Not"
 msgstr ""
 
-#: src/Modules/Rules.php:63
-#: src/Modules/Rules.php:73
-#: src/Modules/Rules.php:82
+#: src/Modules/Rules.php:74
+#: src/Modules/Rules.php:84
+#: src/Modules/Rules.php:93
 msgid "Equals"
 msgstr ""
 
-#: src/Modules/Rules.php:64
-#: src/Modules/Rules.php:74
-#: src/Modules/Rules.php:83
+#: src/Modules/Rules.php:75
+#: src/Modules/Rules.php:85
+#: src/Modules/Rules.php:94
 msgid "Not Equals"
 msgstr ""
 
-#: src/Modules/Rules.php:65
+#: src/Modules/Rules.php:76
 msgid "Greater Than"
 msgstr ""
 
-#: src/Modules/Rules.php:66
+#: src/Modules/Rules.php:77
 msgid "Less Than"
 msgstr ""
 
-#: src/Modules/Rules.php:75
+#: src/Modules/Rules.php:86
 msgid "Contains"
 msgstr ""
 
-#: src/Modules/Rules.php:78
+#: src/Modules/Rules.php:89
 msgid "Yes"
 msgstr ""
 
-#: src/Modules/Rules.php:79
+#: src/Modules/Rules.php:90
 msgid "No"
 msgstr ""
 
-#: src/Modules/Rules.php:84
+#: src/Modules/Rules.php:95
 msgid "After"
 msgstr ""
 
-#: src/Modules/Rules.php:85
+#: src/Modules/Rules.php:96
 msgid "Before"
 msgstr ""
 
-#: wc-thanks-redirect.php:165
+#: src/Modules/SandBoxPayment.php:30
+#: assets/js/wctr-sandbox-block.js:2
+msgid "SandBox Payment"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:31
+msgid "Simulate test purchases – only visible to Administrators."
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:37
+#: src/Modules/SandBoxPayment.php:69
+msgid "SandBox Payment (Test Only)"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:39
+#: src/Modules/SandBoxPayment.php:79
+msgid "This order was placed using the SandBox Payment Gateway (Admin only)."
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:61
+msgid "Enable/Disable"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:63
+msgid "Enable SandBox Payment Gateway"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:67
+msgid "Title"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:72
+msgid "Description"
+msgstr ""
+
+#: src/Modules/SandBoxPayment.php:77
+msgid "Instructions"
+msgstr ""
+
+#: wc-thanks-redirect.php:193
 msgid "Settings"
 msgstr ""
 
-#: wc-thanks-redirect.php:166
+#: wc-thanks-redirect.php:194
 msgid "Go PRO!"
 msgstr ""
 
-#: wc-thanks-redirect.php:167
+#: wc-thanks-redirect.php:195
 msgid "Documentation"
 msgstr ""
 
-#: wc-thanks-redirect.php:168
+#: wc-thanks-redirect.php:196
 msgid "Support Desk"
 msgstr ""
 
-#: wc-thanks-redirect.php:177
+#: wc-thanks-redirect.php:212
 msgid "Thank You Page for WooCommerce is not designed for Multisite, you may need to buy this short plugin. <a target=\"_blank\" href=\"https://bit.ly/2RwaIQB\">Thank You Page for WooCommerce PRO</a>!"
 msgstr ""

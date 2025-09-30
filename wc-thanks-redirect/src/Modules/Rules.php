@@ -39,14 +39,20 @@ class Rules {
 	public function __construct() {
 		// Define options and option groups
 		$this->options = array(
-			'products' => array(
+			'products'         => array(
 				'product_name'      => __( 'Product ', 'wc-thanks-redirect' ),
 				'product_variation' => __( 'Product Variation', 'wc-thanks-redirect' ),
 				'product_category'  => __( 'Product Category', 'wc-thanks-redirect' ),
 				'product_tag'       => __( 'Product Tag', 'wc-thanks-redirect' ),
 			),
-			'users'    => array(
-				'user_role' => __( 'User Role ', 'wc-thanks-redirect' ),				
+			'users'            => array(
+				'user_role' => __( 'User Role ', 'wc-thanks-redirect' ),
+			),
+			'payment_gateways' => array(
+				'payment_method' => __( 'Payment Method', 'wc-thanks-redirect-pro' ),
+			),
+			'shipping_methods' => array(
+				'shipping_method' => __( 'Shipping Method', 'wc-thanks-redirect-pro' ),
 			),
 		);
 
@@ -186,10 +192,10 @@ class Rules {
 
 		// Get the order details
 		$order_data = array(
-			'payment_method' => $order->get_payment_method(),
-			'product_name'  => array_reduce(
+			'payment_method'    => $order->get_payment_method(),
+			'product_name'      => array_reduce(
 				$order->get_items(),
-				function( $carry, $item ) {
+				function ( $carry, $item ) {
 					$carry[ $item->get_product_id() ] = $item->get_name();
 					return $carry;
 				},
@@ -197,7 +203,7 @@ class Rules {
 			),
 			'product_variation' => array_reduce(
 				$order->get_items(),
-				function( $carry, $item ) {
+				function ( $carry, $item ) {
 					if ( $item->get_variation_id() ) {
 						$carry[ $item->get_variation_id() ] = $item->get_variation();
 					}
@@ -205,9 +211,9 @@ class Rules {
 				},
 				array()
 			),
-			'product_category' => array_reduce(
+			'product_category'  => array_reduce(
 				$order->get_items(),
-				function( $carry, $item ) {
+				function ( $carry, $item ) {
 					$product_id = $item->get_product_id();
 					$terms = get_the_terms( $product_id, 'product_cat' );
 					if ( $terms && ! is_wp_error( $terms ) ) {
@@ -219,9 +225,9 @@ class Rules {
 				},
 				array()
 			),
-			'product_tag' => array_reduce(
+			'product_tag'       => array_reduce(
 				$order->get_items(),
-				function( $carry, $item ) {
+				function ( $carry, $item ) {
 					$product_id = $item->get_product_id();
 					$terms = get_the_terms( $product_id, 'product_tag' );
 					if ( $terms && ! is_wp_error( $terms ) ) {
@@ -233,7 +239,15 @@ class Rules {
 				},
 				array()
 			),
-			'user_role' => wp_get_current_user()->roles,
+			'user_role'         => wp_get_current_user()->roles,
+			'shipping_method'   => array_reduce(
+				$order->get_shipping_methods(),
+				function ( $carry, $item ) {
+					$carry[] = $item->get_method_id();
+					return $carry;
+				},
+				array()
+			),
 		);
 
 		// Loop through each group of rules
@@ -301,7 +315,17 @@ class Rules {
 			case 'payment_method':
 				return $order_data['payment_method'];
 			case 'product_name':
-				return array_keys( $order_data['product_names'] );
+				return array_keys( $order_data['product_name'] );
+			case 'product_variation':
+				return $order_data['product_variation'];
+			case 'product_category':
+				return array_values( $order_data['product_category'] );
+			case 'product_tag':
+				return array_values( $order_data['product_tag'] );
+			case 'user_role':
+				return $order_data['user_role'];
+			case 'shipping_method':
+				return array_values( $order_data['shipping_method'] );
 			default:
 				return '';
 		}
@@ -335,5 +359,3 @@ class Rules {
 		}
 	}
 }
-
-

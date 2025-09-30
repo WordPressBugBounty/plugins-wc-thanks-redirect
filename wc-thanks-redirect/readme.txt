@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.8
-Version: 4.2.8
+Stable tag: 4.2.9
+Version: 4.2.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,8 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 15- **SandBox Payment Gateway** only available to administrators for simulating test order
 
+16- **Thank You Page Rule for Shipping Method** allows admin to add Thank You Page rule based on Shipping Method in user order
+
 
 **PRO Features**
 
@@ -102,7 +104,7 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 
 15- **WooCommerce Checkout Manager** compatible
 
-16 - **Optionally, you can choose between a classic or modern template for order details:**
+16 - Optionally, you can choose between a **classic** or **modern** template for order details:
 For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
 For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
 
@@ -197,7 +199,10 @@ Enjoy using the Thank you page for WooCommerce plugin!
 
 == Changelog ==
 
-= 4.2.8 =
+**V 4.2.9**
+Package update
+
+**V 4.2.8**
 SDK Update
 FIX REST Request for WooCommerce
 
@@ -296,5 +301,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.8 =
-SDK Update + FIX warning with REST_REQUEST
+= 4.2.9 =
+Package update

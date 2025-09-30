@@ -397,4 +397,24 @@ class Helper {
 
 		return $shortened_array;
 	}
+
+	/**
+	 * Get shipping methods
+	 *
+	 * @since 4.2.9
+	 * @return array
+	 */
+	public function get_shipping_methods() {
+		$shipping_methods = WC()->shipping->get_shipping_methods();
+		$shipping_options = array();
+
+		foreach ( $shipping_methods as $method ) {
+			$shipping_options[] = array(
+				'id'   => $method->id,
+				'text' => $method->get_method_title(),
+			);
+		}
+
+		return $shipping_options;
+	}
 }

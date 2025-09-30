@@ -84,6 +84,7 @@ jQuery(function ($) {
                 ruleElement.find('.value-input, .value-select').hide();
 
                 var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
                 var savedProductIds = value;
 
                 // Initialize Select2 for product_name with AJAX search
@@ -146,11 +147,42 @@ jQuery(function ($) {
 
                 break;
 
+            case 'payment_method':
+                ruleElement.find('.value-multiselect').show();
+                ruleElement.find('.value-input, .value-select').hide();
+
+                // Initialize Select2 multiselect for payment_method using localized data
+                var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
+
+                // Add each payment gateway option from the localized data
+                $.each(wctr_config.lists.payment_gateways, function (index, gateway) {
+                    var option = $('<option></option>')
+                        .val(gateway.id)
+                        .text(gateway.text);
+
+                    selectElement.append(option);
+                });
+
+                // Initialize Select2 for the multiselect
+                selectElement.select2({
+                    placeholder: "Select payment gateways",
+                    allowClear: false,
+                    multiple: true,
+                });
+
+                // Set the saved value if provided (expects an array for multiselect)
+                if (value && Array.isArray(value)) {
+                    selectElement.val(value).trigger('change');
+                }
+                break;
+
             case 'product_variation':
                 ruleElement.find('.value-multiselect').show();
                 ruleElement.find('.value-input, .value-select').hide();
 
                 var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
                 var savedProductIds = value;
 
                 // Initialize Select2 for product_name with AJAX search
@@ -218,6 +250,7 @@ jQuery(function ($) {
                 ruleElement.find('.value-input, .value-select').hide();
 
                 var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
                 var savedProductIds = value;
 
                 // Initialize Select2 for product_name with AJAX search
@@ -285,6 +318,7 @@ jQuery(function ($) {
                 ruleElement.find('.value-input, .value-select').hide();
 
                 var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
                 var savedProductIds = value;
 
                 // Initialize Select2 for product_name with AJAX search
@@ -367,6 +401,36 @@ jQuery(function ($) {
                 // Initialize Select2 for the multiselect
                 selectElement.select2({
                     placeholder: "Select user roles",
+                    allowClear: false,
+                    multiple: true,
+                });
+
+                // Set the saved value if provided (expects an array for multiselect)
+                if (value && Array.isArray(value)) {
+                    selectElement.val(value).trigger('change');
+                }
+                break;
+
+            case 'shipping_method':
+                ruleElement.find('.value-multiselect').show();
+                ruleElement.find('.value-input, .value-select').hide();
+
+                // Initialize Select2 multiselect for payment_method using localized data
+                var selectElement = ruleElement.find('.multiselect-value');
+                selectElement.empty(); // Clear existing options
+
+                // Add each payment gateway option from the localized data
+                $.each(wctr_config.lists.shipping_methods, function (index, shipping) {
+                    var option = $('<option></option>')
+                        .val(shipping.id)
+                        .text(shipping.text);
+
+                    selectElement.append(option);
+                });
+
+                // Initialize Select2 for the multiselect
+                selectElement.select2({
+                    placeholder: "Select shipping method",
                     allowClear: false,
                     multiple: true,
                 });
