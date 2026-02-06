@@ -3,7 +3,7 @@
 /**
  * @package     Thank You Page
  * @since       4.2.7
-*/
+ */
 
 namespace NeeBPlugins\Wctr\Modules;
 
@@ -18,11 +18,11 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 
 	public $instructions;
 
-    /**
-     * Init
-     *
-     * @since 4.2.7
-     */
+	/**
+	 * Init
+	 *
+	 * @since 4.2.7
+	 */
 	public function __construct() {
 		$this->id                 = 'sandboxpaymentgateway-wctr';
 		$this->icon               = apply_filters( 'woocommerce_sandbox_payment_gateway_icon', '' );
@@ -50,11 +50,11 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 		$this->init_blocks_integration();
 	}
 
-    /**
-     * Init Form Fields
-     * 
-     *  * @since 4.2.7
-     */
+	/**
+	 * Init Form Fields
+	 *
+	 *  * @since 4.2.7
+	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'enabled'      => array(
@@ -91,36 +91,36 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 		return $available_gateways;
 	}
 
-    /**
-     * Output for the payment gateway.
-     *
-     * @access public
-     */
+	/**
+	 * Output for the payment gateway.
+	 *
+	 * @access public
+	 */
 	public function thankyou_page() {
 		if ( $this->instructions ) {
 			echo wp_kses_post( wpautop( wptexturize( $this->instructions ) ) );
 		}
 	}
 
-    /**
-     * Add content to the WC emails.
-     *
-     * @access public
-     * @param WC_Order $order
-     * @param bool $sent_to_admin
-     * @param bool $plain_text
-     */
+	/**
+	 * Add content to the WC emails.
+	 *
+	 * @access public
+	 * @param WC_Order $order
+	 * @param bool     $sent_to_admin
+	 * @param bool     $plain_text
+	 */
 	public function email_instructions( $order, $sent_to_admin, $plain_text = false ) { // phpcs:ignore
 		if ( $this->instructions && ! $sent_to_admin && $this->id === $order->get_payment_method() ) {
 			echo wp_kses_post( wpautop( wptexturize( $this->instructions ) ) ) . PHP_EOL;
 		}
 	}
 
-    /**
-     * Process payment
-     *
-     * @since 4.2.7
-     */
+	/**
+	 * Process payment
+	 *
+	 * @since 4.2.7
+	 */
 	public function process_payment( $order_id ) {
 		if ( absint( $order_id ) > 0 ) {
 			$order = wc_get_order( $order_id );
@@ -141,11 +141,11 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 		}
 	}
 
-    /**
-     * Init Blocks integration
-     *
-     * @since 4.2.7
-     */
+	/**
+	 * Init Blocks integration
+	 *
+	 * @since 4.2.7
+	 */
 	public function init_blocks_integration() {
 		if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 			return;
@@ -154,8 +154,8 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 		add_action(
 			'woocommerce_blocks_payment_method_type_registration',
 			function ( $registry ) {
-				if ( ! class_exists( __NAMESPACE__ . '\SandBoxPaymentBlocksSupport.php' ) ) {
-					require_once __DIR__ . '/SandBoxPaymentBlocksSupport.php';
+				if ( ! class_exists( 'NeeBPlugins\\Wctr\\Compatibility\\SandBoxPaymentBlocksSupport' ) ) {
+					require_once WCTR_PLUGIN_DIR . 'src/Compatibility/SandBoxPaymentBlocksSupport.php';
 				}
 				$registry->register( new SandBoxPaymentBlocksSupport() );
 			}

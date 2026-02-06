@@ -6,8 +6,8 @@ Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
 Tested up to: 6.8
-Stable tag: 4.2.9
-Version: 4.2.9
+Stable tag: 4.3.0
+Version: 4.3.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,8 +68,6 @@ This plugin is open for new feature request. Just create a request in plugin sup
 
 15- **SandBox Payment Gateway** only available to administrators for simulating test order
 
-16- **Thank You Page Rule for Shipping Method** allows admin to add Thank You Page rule based on Shipping Method in user order
-
 
 **PRO Features**
 
@@ -86,7 +84,7 @@ This plugin is open for new feature request. Just create a request in plugin sup
 6- Personalization shortcodes **[TRFW_ORDER_NUMBER]**,**[TRFW_CUSTOMER_FIRST_NAME]**,**[TRFW_CUSTOMER_LAST_NAME]**,**[TRFW_CUSTOMER_EMAIL]**,**[TRFW_CUSTOMER_PHONE_NUMBER]**,**[TRFW_CUSTOMER_DETAILS]**,**[TRFW_ORDER_TOTAL]**,**[TRFW_ORDER_CUSTOMER_NOTES]**,**[TRFW_ORDER_PAYMENT_METHOD]**,**[TRFW_ORDER_DATE]**,**[TRFW_SHIPPING_ADDRESS]**,**[TRFW_GMC_REVIEW_FORM]**
 
 7- URL Personalization **[order_number]**,**[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
-In the “Thank You URL” field in the product? put like this https://site.com/thanks?client_email=[billing_email]
+In the **“Thank You URL”** field in the product? put like this https://site.com/thanks?client_email=[billing_email]
 
 8- Thank you page based on Payment Gateway
 
@@ -108,7 +106,9 @@ In the “Thank You URL” field in the product? put like this https://site.com/
 For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
 For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
 
-4- **PolyLang** Translated URL redirects ( PolyLang compatible )
+17- **PolyLang** Translated URL redirects ( PolyLang compatible )
+
+18- **Shipping-Based** Thank You Rule lets admins tailor the Thank You page by shipping method.
 
 For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">documentation page</a>.
 
@@ -198,6 +198,10 @@ Enjoy using the Thank you page for WooCommerce plugin!
 6. Per Product Redirect URL with priority parameter
 
 == Changelog ==
+
+**V 4.3.0**
+Fix Missing File issue
+WC Tested upto 10.3
 
 **V 4.2.9**
 Package update
@@ -301,5 +305,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.2.9 =
-Package update
+= 4.3.0 =
+Fix Missing File issue

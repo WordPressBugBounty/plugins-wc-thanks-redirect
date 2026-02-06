@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.2.9
+ * Version:           4.3.0
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -20,7 +20,7 @@
  * Requires PHP:      7.4
  * Requires at least: 6.2
  * WC requires at least: 8.2
- * WC tested up to: 10.2
+ * WC tested up to: 10.3
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
