@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.3.0
+ * Version:           4.3.1
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -19,8 +19,9 @@
  * Domain Path:       /languages/
  * Requires PHP:      7.4
  * Requires at least: 6.2
+ * Tested up to: 6.9
  * WC requires at least: 8.2
- * WC tested up to: 10.3
+ * WC tested up to: 10.5
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
@@ -31,7 +32,7 @@ use NeeBPlugins\Wctr\Compatibility\SandBoxPaymentBlocksSupport as WCTR_BlocksSup
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.2.9' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.3.1' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -222,16 +223,19 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 		 */
 		public function sandbox_payment_gateway() {
 			// Check if the required class exists
-			if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
+			if ( ! class_exists( '\Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 				return;
 			}
 
-			// Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
 			add_action(
 				'woocommerce_blocks_payment_method_type_registration',
-				function ( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
-					// Register an instance of Pre Order Gateway
-					$payment_method_registry->register( new WCTR_BlocksSupport() );
+				function ( $payment_method_registry ) {
+
+					if ( class_exists( '\NeeBPlugins\WctrPro\Modules\WCTRPro_BlocksSupport' ) ) {
+						$payment_method_registry->register(
+							new \NeeBPlugins\WctrPro\Modules\WCTRPro_BlocksSupport()
+						);
+					}
 				}
 			);
 		}

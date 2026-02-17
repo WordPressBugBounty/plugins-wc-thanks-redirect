@@ -5,9 +5,9 @@ Author: Nitin Prakash
 Donate link: https://nitin247.com/buy-me-a-coffee/
 Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
 Requires at least: 6.2
-Tested up to: 6.8
-Stable tag: 4.3.0
-Version: 4.3.0
+Tested up to: 6.9
+Stable tag: 4.3.1
+Version: 4.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -67,6 +67,10 @@ This plugin is open for new feature request. Just create a request in plugin sup
 14- Compatible with **PixelYourSite** Facebook
 
 15- **SandBox Payment Gateway** only available to administrators for simulating test order
+
+16- **Mollie for WooCommerce** compatible
+
+17- **Paytrail for WooCommerce** compatible
 
 
 **PRO Features**
@@ -199,6 +203,11 @@ Enjoy using the Thank you page for WooCommerce plugin!
 
 == Changelog ==
 
+**V 4.3.1**
+SDK Update
+Mollie for WooCommerce compatibility
+Paytrail for WooCommerce compatibility
+
 **V 4.3.0**
 Fix Missing File issue
 WC Tested upto 10.3
@@ -305,5 +314,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.3.0 =
-Fix Missing File issue
+= 4.3.1 =
+SDK Update + Mollie for WooCommerce, Paytrail compatibility

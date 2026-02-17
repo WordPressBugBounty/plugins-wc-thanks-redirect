@@ -191,6 +191,33 @@ class Front {
 	 * @return void
 	 */
 	public function safe_redirect( $order_id ) {
+
+		// Basic guards
+		if ( ! $order_id || is_admin() || wp_doing_ajax() || defined( 'REST_REQUEST' ) ) {
+			return;
+		}
+
+		// Prevent infinite redirect loops
+		if ( isset( $_GET['wctr_redirect_done'] ) ) { // phpcs:ignore
+			return;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			return;
+		}
+
+		/*
+		|--------------------------------------------------------------------------
+		| Mollie Async Safety
+		|--------------------------------------------------------------------------
+		| If returning from Mollie, ensure payment is completed
+		| Mollie adds: filter_flag=onMollieReturn
+		*/
+		if (isset( $_GET['filter_flag'] ) && 'onMollieReturn' === $_GET['filter_flag'] && ! $order->is_paid() ) { // phpcs:ignore
+			return;
+		}
+
 		$wctr_global = get_option( 'wctr_global' );
 
 		$order     = wc_get_order( $order_id );
