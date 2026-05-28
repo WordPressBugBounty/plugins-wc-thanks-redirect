@@ -1,212 +1,273 @@
-=== Thank You Page for WooCommerce ===
+=== Thank You Page for WooCommerce – Custom Thank You Page & Redirect ===
 Contributors: nitin247
-Author URI: http://www.nitin247.com/
+Author URI: https://www.nitin247.com/
 Author: Nitin Prakash
 Donate link: https://nitin247.com/buy-me-a-coffee/
-Tags: thank you page, woocommerce thank you, woocommerce thank you page, custom thank you page, woo thank you page
-Requires at least: 6.2
-Tested up to: 6.9
-Stable tag: 4.3.1
-Version: 4.3.1
+Tags: woocommerce thank you page, custom thank you page, woocommerce redirect, order received page, woocommerce custom page
+Requires at least: 6.5
+Tested up to: 7.0
+Stable tag: 4.3.2
+Version: 4.3.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers.
+Customize your WooCommerce thank you page or redirect customers after checkout to any page or URL—simple, flexible, and tracking-friendly.
 
 == Description ==
-Thank You Page for WooCommerce enhances your online store by allowing you to customize and redirect customers to a personalized thank you page after they complete a successful purchase. Deliver a tailored post-purchase experience with personalized messages, order details.
 
-Thank You Page for WooCommerce extension permits you to define Global Thank You page for your Customers based on Success or Failure. 
+Easily customize your WooCommerce Thank You Page with Thank You Page for WooCommerce 🚀
+Optimize your post-purchase experience! Redirect WooCommerce customers to custom thank you pages, landing pages, or external URLs—fast, lightweight.
+Boost conversions and improve customer retention with Thank You Page for WooCommerce.
 
-By default, WooCommerce redirects customers to a generic thank you page after a purchase. However, with the "Thank You Page" plugin, you have the power to redirect customers to a designated page of your choice. This page can be customized to display specific order details, personalized messages, or any other content you wish to provide to your customers after their purchase.
+By default, WooCommerce shows a basic order confirmation page after checkout. This plugin gives you full control over what your customers see after purchase.
 
-The benefits of using the "Thank You Page for WooCommerce" plugin include increased customer engagement, the opportunity to provide additional information or promotions, and the ability to reinforce your brand identity. By redirecting customers to a customized thank you page, you can strengthen customer satisfaction, improve post-purchase communication, and potentially drive further sales or conversions.
+You can redirect customers to a custom page, landing page, or external URL—without breaking your checkout flow or integrations.
 
-Overall, the "Thank You Page for WooCommerce" plugin empowers you to create a memorable post-purchase experience for your customers by redirecting them to a personalized thank you page. It enhances your WooCommerce store's functionality, increases customer engagement.
+✔ Replace default WooCommerce thank you page  
+✔ Redirect to any internal or external URL  
+✔ Show custom messages and order details  
+✔ Create product-specific thank you pages  
+✔ Works with tracking tools and checkout plugins  
+✔ Does not break WooCommerce checkout flow 
 
-Now supports Order Details on WooCommerce Thank You Page.
-Check FAQ Section for change log and more details.
+👉 Looking for advanced customization? Check out the PRO version below.
 
-This permits you to make your own Thank You Page with a custom thank you message, particular to your store and to your objective.
+---
 
-After a purchase, your customers will be redirected to the custom WooCommerce Thank You page rather than the default WooCommerce's Thank You page.
+💡 Why use this plugin?
 
-With Thank You Page for WooCommerce version 2, you can set per product redirect urls and order details on thank you page.
+The default WooCommerce thank you page is limited.
 
-This plugin is open for new feature request. Just create a request in plugin support
+Many redirect solutions:
+❌ Break conversion tracking  
+❌ Conflict with checkout plugins  
+❌ Lack flexibility  
+
+This plugin solves these problems with a simple and reliable approach.
+
+---
+
+🎯 Common Use Cases
+
+- Send customers to a custom thank you page 
+- Send buyers to a high-converting "Next Steps" page. 
+- Redirect to course access or download pages  
+- Connect with external funnels or landing pages  
+- Use shortcodes to display dynamic order details and names
+- Show personalized post-purchase messages 
+- Display order details using shortcode **[TRFW_ORDER_DETAILS]**
+
+---
+
+⚙️ How it works
+
+1. Create or choose a thank you page  
+2. Set it globally or per product  
+3. Optionally use shortcode to display order details  
+
+That’s it—your customers will see your custom page after checkout.
+
+---
+
+🚀 Coming Soon
+
+We are actively working on:
+
+- Block-based thank you page builder  
+- Pre-designed templates  
+- Advanced customization options  
+
+---
+
+Simple to use. Lightweight. Built for flexibility.
+
+---
 
 **Plugin Features**
 
-1- Functionality to set Global Thank You page for your Customers based on Success or Failure.
+✔ Global Thank You Page  
+Set a default thank you page for all orders (success or failure).
 
-2- Set per product redirect urls with redirect url priority.
+✔ Per Product Redirects  
+Define custom thank you pages or URLs for individual products.
 
-3- Allows you to make your own Thank you message, particular to your store and to your objective.
+✔ Flexible Redirect Options  
+Redirect to internal pages or external URLs.
 
-4- Fully Tested with latest wordpress and woocommerce versions.
+✔ Order Details Shortcode  
+Display order details using [TRFW_ORDER_DETAILS].
 
-5- Order Details on Thank You page. ( New Feature Update )
+✔ Multiple Products Support  
+Handles orders with multiple products intelligently.
 
-6- Supports Multiple Products in Cart
+✔ Downloadable Products Support  
+Show downloadable product details on thank you page.
 
-7- Supports Downloadable products, downloadable product details on Thank You Page.
+✔ Lightweight & Fast  
+No heavy builders or unnecessary overhead.
 
-8- Language Translations through POT, PO files.
+✔ WooCommerce Compatibility  
+Works with latest WooCommerce versions.
 
-9- High-Performance Order Storage (HPOS) compatible.
+✔ HPOS Compatible  
+Supports High-Performance Order Storage.
 
-10- PHP 8 Compatible.
+✔ PHP 8 Compatible  
 
-11- Ability to make separate pages for each product ( Product specific thankyou page )
+✔ Translation Ready  
+Supports POT/PO files for localization.
 
-12- Compatible with <a target="_blank" href="https://wordpress.org/plugins/approve-orders/">Approve Orders for WooCommerce</a>, enabling **Order Approval** allowing shop owners to **approve** or **reject** orders before payment is processed.
+---
 
-13- **GTM DataLayer** for **Google Analytics**
+**💰 Take Your Thank You Page Further**
 
-14- Compatible with **PixelYourSite** Facebook
+The free version gives you full control over redirects and custom pages.
 
-15- **SandBox Payment Gateway** only available to administrators for simulating test order
+Upgrade to PRO to unlock powerful advanced control:
+✔ Advanced targeting rules  
+✔ Dynamic personalization  
+✔ More flexible thank you page control  
 
-16- **Mollie for WooCommerce** compatible
+👉 Get PRO Version:
+https://nitin247.com/plugin/thank-you-page-for-woocommerce/?utm_source=wp-repo&utm_campaign=readme&utm_medium=cta2
 
-17- **Paytrail for WooCommerce** compatible
+---
 
+**Compatibility**
 
-**PRO Features**
+- Approve Orders for WooCommerce  
+- PixelYourSite Facebook  
+- GTM DataLayer (Google Analytics)  
+- Mollie for WooCommerce  
+- Paytrail for WooCommerce  
 
-1- <a href="https://nitin247.com/plugin/thank-you-page-for-woocommerce/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">Thank You Page for WooCommerce PRO</a> allows all the functionalities of Thank You Page but for Wordpress Multisite too.
+---
 
-2- Compatible with WooCommerce Subscriptions
+**🚀 Upgrade to PRO for Advanced Control**
 
-3- Compatible with WooCommerce Donations
+Take your WooCommerce thank you pages to the next level.
 
-4- **WPML** Translated URL redirects ( WPML Compatible )
+✔ Advanced Thank You Page Rules  
+Create dynamic rules based on product, category, user role, and more.
 
-5- Trustpilot compatible
+✔ Payment Gateway Based Pages  
+Show different thank you pages based on payment method.
 
-6- Personalization shortcodes **[TRFW_ORDER_NUMBER]**,**[TRFW_CUSTOMER_FIRST_NAME]**,**[TRFW_CUSTOMER_LAST_NAME]**,**[TRFW_CUSTOMER_EMAIL]**,**[TRFW_CUSTOMER_PHONE_NUMBER]**,**[TRFW_CUSTOMER_DETAILS]**,**[TRFW_ORDER_TOTAL]**,**[TRFW_ORDER_CUSTOMER_NOTES]**,**[TRFW_ORDER_PAYMENT_METHOD]**,**[TRFW_ORDER_DATE]**,**[TRFW_SHIPPING_ADDRESS]**,**[TRFW_GMC_REVIEW_FORM]**
+✔ Multisite Support  
 
-7- URL Personalization **[order_number]**,**[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
+✔ Personalization Shortcodes  
+Insert dynamic customer and order data easily.
+
+**[TRFW_ORDER_NUMBER]**,**[TRFW_CUSTOMER_FIRST_NAME]**,**[TRFW_CUSTOMER_LAST_NAME]**,**[TRFW_CUSTOMER_EMAIL]**,**[TRFW_CUSTOMER_PHONE_NUMBER]**,**[TRFW_CUSTOMER_DETAILS]**,**[TRFW_ORDER_TOTAL]**,**[TRFW_ORDER_CUSTOMER_NOTES]**,**[TRFW_ORDER_PAYMENT_METHOD]**,**[TRFW_ORDER_DATE]**,**[TRFW_SHIPPING_ADDRESS]**,**[TRFW_GMC_REVIEW_FORM]**
+
+✔ URL Personalization  
+Pass customer data via URL parameters.
+
+**[order_number]**,**[billing_first_name]**,**[billing_last_name]**,**[billing_email]**
 In the **“Thank You URL”** field in the product? put like this https://site.com/thanks?client_email=[billing_email]
 
-8- Thank you page based on Payment Gateway
+✔ Multilingual Support  
+Compatible with **WPML** and **Polylang**.
 
-9- Thank You Page based on User Role
+✔ Modern & Classic Templates  
+Choose different layouts for order details.
 
-10- Thank you page based on Product Type
+---
 
-11- Thank You Page based on Product Category
+👉 Upgrade Now:
+https://nitin247.com/plugin/thank-you-page-for-woocommerce/?utm_source=wp-repo&utm_campaign=readme&utm_medium=cta3
 
-12- Thank You Page based on Product Tags
+---
 
-13- Thank You Page based on Product Variation
+For complete documentation, please visit:
+https://nitin247.com/docs/thank-you-page/
 
-14- Thank You Page Rules allow you to easily create customized Thank You pages with advanced logic from the user interface—no coding needed! Tailor your pages to meet your specific needs effortlessly.
+Learn how to create a WooCommerce thank you page:
+https://nitin247.com/how-to-create-woocommerce-thank-you-page/
 
-15- **WooCommerce Checkout Manager** compatible
-
-16 - Optionally, you can choose between a **classic** or **modern** template for order details:
-For the classic template (default), use: **[TRFW_ORDER_DETAILS template="classic"]**
-For the modern template, use: **[TRFW_ORDER_DETAILS template="modern"]**
-
-17- **PolyLang** Translated URL redirects ( PolyLang compatible )
-
-18- **Shipping-Based** Thank You Rule lets admins tailor the Thank You page by shipping method.
-
-For complete documentation, please visit the <a target=_blank href="https://nitin247.com/docs/thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">documentation page</a>.
-
-**Unlock the Power of WooCommerce: Learn How to Create a Captivating Thank You Page Today!**
-<a href="https://nitin247.com/how-to-create-woocommerce-thank-you-page/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR" class="cta-button">
-  Discover How to Create a WooCommerce Thank You Page
-</a>
-
-Check PRO Version for Wordpress Multisite here <a href="https://bit.ly/2RxRkT5">Thank You Page for WooCommerce PRO</a>
-
-**Supercharge Your WooCommerce Order Approval Process!**
-Transform how you manage your orders with the <a target="_blank" href="https://wordpress.org/plugins/approve-orders/?utm_source=wctr-lite&utm_campaign=wp-repo&utm_medium=readme&utm_term=WCTR">Approve Orders for WooCommerce</a> plugin
-Easily **approve or reject orders** and streamline your workflow like never before.
+---
 
 **Credits**
-- Developed by <a target="_blank" href="https://profiles.wordpress.org/nitin247/">Nitin Prakash</a>
-- German Translation by <a target="_blank" href="https://profiles.wordpress.org/danielglaas/">Daniel Glaas</a>
-- Ukranian Translation by <a target="_blank" href="https://profiles.wordpress.org/ingyaroslav/">Yaroslav Ingulskyi</a>
+- Developed by https://profiles.wordpress.org/nitin247/
+- German Translation by https://profiles.wordpress.org/danielglaas/
+- Ukranian Translation by https://profiles.wordpress.org/ingyaroslav/
 
-**Want to contribute to the plugin?**
-
-You may now contribute to the plugin on Github <a target="_blank" href="https://github.com/NitinPrakash/wc-thanks-redirect">WC Thanks Redirect</a>
-
+---
 
 == Installation ==
 
-* Upload the directory '/wc-thanks-redirect/' to your WP plugins directory and activate from the Dashboard of the main blog.
-* Configure the plugin at Dashboard > WooCommerce > Settings > Products > Thank You Page for WooCommerce.
-* Presently you can set Global Custom redirect URLs for your customers based on Success or Failure.
-* To display Order Details on Thank You page use this shortcode [TRFW_ORDER_DETAILS]
+1. Upload the directory '/wc-thanks-redirect/' to your plugins directory.
+2. Activate the plugin from the WordPress dashboard.
+3. Go to WooCommerce > Settings > Products > Thank You Page for WooCommerce.
+4. Set your custom thank you page or redirect URL.
+5. Use shortcode [TRFW_ORDER_DETAILS] to display order details.
 
+---
 
 == Frequently Asked Questions ==
 
-= How do I set up a custom thank you page? =
+= How do I set a custom thank you page? =
 
-1. Create a new WordPress page or choose an existing one to serve as your thank you page.
-2. In the plugin settings, add url to the Thank You Page.
-3. Save the settings, and customers will be redirected to the chosen page after a successful purchase.
- 
-= How Global Redirects work? =
-Navigate to Dashboard > WooCommerce > Settings > Products > Thank You Page for WooCommerce
-Here, you can configure the Global Redirect URL. The Global Redirect works alongside per-product URLs; if no per-product URL is specified, the Global Redirect URL will be used.
+1. Create or edit a WordPress page  
+2. Add its URL in plugin settings  
+3. Save settings  
 
-= How to set redirects per product? =
-Navigate to Edit your desired product, in General Tab you can set per product redirect.
+---
 
-= Does this plugin support Order Details on Thank You page? =
-Yes, Thank You Page for WooCommerce now supports Order Details on Thank You Page itself.
+= Can I redirect to an external website? =
 
-= How to setup Order Details on Thank You page? =
-Step 1- Create a new page or edit existing page.
-Step 2- Add this shortcode <b>[TRFW_ORDER_DETAILS]</b> on the page where you want to display Order Details on your Thank You Page.
-Step 3- Add thank you page URL to your Plugin Settings
+Yes, you can redirect customers to any external URL.
 
-= Does this plugin support redirecting to external website? =
-Yes, you can set an external url as thank you page.
+---
 
-= Does this plugin support multisite? =
-No, Multiste is not supported in Free version.
+= Can I set different pages per product? =
 
-= How can I make separate pages for each product =
-This can be done by setting thank you page on woocommerce product edit and setting the redirect priority value, please check screenshot no. 6
+Yes, per-product thank you page settings are supported.
 
-= How can I priorize the url to to be redirected to in case those two products are bought together =
-This can be done by using the Redirect priority value, please check screenshot no. 6
+---
 
-= Does this plugin support multilanguage? =
-Yes, pot file is available in languages. You may need to add translation file in your respective language.
+= How do I show order details? =
 
+Use shortcode:
+[TRFW_ORDER_DETAILS]
 
-== License ==
-This plugin is released under the GPLv2 or later. You can find the full license text in the `LICENSE` file included with this plugin.
+---
 
-== Support ==
-For support or any inquiries, please contact us at <a href="mailto:nitin247@outlook.com">nitin247@outlook.com</a> or create a suppport request on our <a href="https://nitin247.com/support">Support Page</a>.
+= Does this plugin support tracking tools? =
 
-Enjoy using the Thank you page for WooCommerce plugin!
+Yes, the plugin is designed to work without breaking tracking or checkout flow.
+
+---
+
+= Does it support multilingual? =
+
+Yes, translation files are included.
+
+---
 
 == Screenshots ==
 
-1. Global Redirect
-2. Per Product Redirect
-3. How to add shortcode for Order Details
-4. Order details on Thank You Page
-5. Order details on Thank You Page for downloadable products
-6. Per Product Redirect URL with priority parameter
+1. Set Global Thank You Page  
+2. Set Per Product Thank You Page  
+3. Add Order Details using Shortcode  
+4. Custom Thank You Page Example  
+5. Downloadable Product Details  
+6. Redirect Priority Settings  
+
+---
 
 == Changelog ==
 
-**V 4.3.1**
+**V 4.3.2**
 SDK Update
-Mollie for WooCommerce compatibility
-Paytrail for WooCommerce compatibility
+FIX $order->order_key warning
+Tested upto WP 7.0
+
+**V 4.3.1**
+SDK Update  
+Mollie for WooCommerce compatibility  
+Paytrail for WooCommerce compatibility  
 
 **V 4.3.0**
 Fix Missing File issue
@@ -314,5 +375,5 @@ Stable initial release
 
 == Upgrade Notice ==
 
-= 4.3.1 =
-SDK Update + Mollie for WooCommerce, Paytrail compatibility
+= 4.3.2 =
+SDK Update

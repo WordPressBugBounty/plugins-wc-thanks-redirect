@@ -3,7 +3,7 @@
 /**
  * @package     Thank You Page
  * @since       4.2.7
-*/
+ */
 
 namespace NeeBPlugins\Wctr\Compatibility;
 
@@ -21,7 +21,7 @@ final class SandboxPaymentBlocksSupport extends AbstractPaymentMethodType {
 	 *
 	 * @var string
 	 */
-	protected $name    = 'sandboxpaymentgateway-wctr';
+	protected $name    = 'wctr-sandboxpayment';
 	protected $gateway = null;
 
 	/**
@@ -45,7 +45,7 @@ final class SandboxPaymentBlocksSupport extends AbstractPaymentMethodType {
 	 */
 	public function is_active() {
 		// Only active if gateway is enabled AND user is admin
-		return current_user_can( 'administrator' ) && ! empty( $this->settings['enabled'] ) && 'yes' === $this->settings['enabled'];
+		return current_user_can( 'administrator' ) && ! empty( $this->settings['enabled'] ) && 'yes' === $this->settings['enabled'];		
 	}
 
 	/**

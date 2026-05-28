@@ -3,7 +3,7 @@
 /**
  * @package     Thank You Page
  * @since       4.1.6
-*/
+ */
 
 namespace NeeBPlugins\Wctr;
 
@@ -20,7 +20,6 @@ class Admin {
 	 * @since 4.1.6
 	 * @return object initialized object of class.
 	 */
-
 	public static function get_instance() {
 
 		if ( is_null( self::$instance ) ) {
@@ -87,237 +86,401 @@ class Admin {
 	 * @return string ob_get_clean
 	 */
 	public function settings_page( $settings, $current_section ) {
-		ob_start();
 
 		global $wc_thanks_redirect_fs;
 
-		// prevent loading tabs on Ajax and Rest Request
-		if ( wp_doing_ajax() || defined( 'REST_REQUEST' ) ) {
+		// Prevent loading on AJAX / REST
+		if ( wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return $settings;
 		}
 
-		$default_tab = 'settings';
+		if ( 'wctr' !== $current_section ) {
+			return $settings;
+		}
 
-		$tab = isset( $_GET['wctr-tab'] ) ? $_GET['wctr-tab'] : $default_tab; // phpcs:ignore
+		$tab = sanitize_key( wp_unslash( $_GET['wctr-tab'] ?? 'settings' ) ); // phpcs:ignore
 		$tab = str_replace( 'wctr-', '', $tab );
 
-		if ( $current_section === 'wctr' ) { //phpcs:ignore
+		$this->render_settings_tabs();
 
-			$settings_url = $setting_fields = $settings_end = array();
+		if ( 'rules' === $tab ) {
+			$this->render_rules_tab( $wc_thanks_redirect_fs );
 
-			$wctr_pys_active = class_exists( '\PixelYourSite\PYS' ) ? __( 'PixelYourSite integration is active, nothing needs to be done!', 'wc-thanks-redirect-pro' ) : __( 'Activate PixelYourSite to enable automatic PixelYourSite Integration', 'wc-thanks-redirect-pro' );
-
-			$settings_tab = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=settings' );
-			$rules_tab    = admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=rules' );
-
-			echo '<div align="center" class="my-3">
-					<a href="' . esc_url( $settings_tab ) . '" class="settingstab-link button ' . ( 'settings' === $tab ? 'button-primary' : '' ) . '">' . esc_html( 'Settings', 'wc-thanks-redirect' ) . '</a>
-					<a href="' . esc_url( $rules_tab ) . '" class="settingstab-link button ' . ( 'rules' === $tab ? 'button-primary' : '' ) . '">' . esc_html( 'Rules ( PRO )', 'wc-thanks-redirect' ) . '</a>	
-					<a target="_blank" href="' . esc_url( WCTR_KB_URL ) . '" class="settingstab-link button">' . esc_html( 'Documentation', 'wc-thanks-redirect' ) . '</a>				
-					</div>';
-
-			if ( 'wctr' === $current_section && 'settings' === $tab ) {
-
-				$pages = Helper::get_instance()->get_pages();
-
-				$skip_template_redirect = get_option( 'wctr_thanks_redirect_enable_template_redirect', true );
-				$skip_template_redirect = filter_var( $skip_template_redirect, FILTER_VALIDATE_BOOLEAN );
-
-				// Add Title to the Settings
-				$settings_url[] = array(
-					'name' => __( 'Thank You Page Settings', 'wc-thanks-redirect' ),
-					'type' => 'title',
-					'desc' => __( 'The following options are used to configure Thank You Page', 'wc-thanks-redirect' ),
-					'id'   => 'wctr',
-				);
-
-				// Add first checkbox option
-				$settings_url[] = array(
-					'name'     => __( 'Global Redirect Settings', 'wc-thanks-redirect' ),
-					'desc_tip' => __( 'This will add redirect for orders', 'wc-thanks-redirect' ),
-					'id'       => 'wctr_global',
-					'type'     => 'checkbox',
-					'css'      => 'min-width:300px;',
-					'desc'     => __( 'Enable Global Thank You Page', 'wc-thanks-redirect' ),
-				);
-
-				// Add second text field option
-				$settings_url[] = array(
-					'class'   => 'wc-enhanced-select',
-					'name'    => __( 'Thank You Page URL', 'wc-thanks-redirect' ),
-					'id'      => 'wctr_thanks_redirect_page',
-					'type'    => 'select',
-					'options' => wp_parse_args( Helper::get_instance()->shorten( $pages, 'url', 'text' ), array( '' => __( 'Select URL', 'wc-thanks-redirect' ) ) ),
-					'desc'    => __( 'You can also enter the URL manually in the field below.', 'wc-thanks-redirect' ),
-				);
-
-				$settings_url[] = array(
-					'name'     => '',
-					'desc_tip' => __( 'This will add a redirect URL for successful orders', 'wc-thanks-redirect' ),
-					'id'       => 'wctr_thanks_redirect_url',
-					'type'     => 'text',
-					'desc'     => __( 'Enter Valid URL!', 'wc-thanks-redirect' ),
-				);
-
-				// Add third text field option
-				$settings_url[] = array(
-					'name'     => __( 'Order Failure Redirect URL', 'wc-thanks-redirect' ),
-					'desc_tip' => __( 'This will add a redirect URL for failed orders', 'wc-thanks-redirect' ),
-					'id'       => 'wctr_failed_redirect_url',
-					'type'     => 'text',
-					'desc'     => __( 'Enter Valid URL!', 'wc-thanks-redirect' ),
-				);
-
-				$settings_url[] = array(
-					'name'     => __( 'PixelYourSite Integration', 'wc-thanks-redirect-pro' ),
-					'desc_tip' => __( 'This will automatically activate the PixelYourSite Integration with Thank You Page', 'wc-thanks-redirect-pro' ),
-					'type'     => 'checkbox',
-					'default'  => class_exists( '\PixelYourSite\PYS' ) ? 'yes' : 'no',
-					'desc'     => $wctr_pys_active,
-					'disabled' => true,
-				);
-
-				$settings_url[] = array(
-					'name'              => __( 'WPML Translated URL', 'wc-thanks-redirect' ),
-					'desc_tip'          => __( 'WPML Translated URL is a PAID Feature. Please upgrade to <a href="' . esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ) . '">Thank You Page PRO</a>', 'wc-thanks-redirect' ),
-					'id'                => 'wctr_wpml_active',
-					'type'              => 'checkbox',
-					'default'           => 'no',
-					'custom_attributes' => array( 'disabled' => 'disabled' ),
-					'desc'              => __( 'Activate WPML and its done!', 'wc-thanks-redirect' ),
-				);
-
-				$settings_url[] = array(
-					'name'              => __( 'PolyLang Translated URL', 'wc-thanks-redirect' ),
-					'desc_tip'          => __( 'PolyLang Translated URL is a PAID Feature. Please upgrade to <a href="' . esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ) . '">Thank You Page PRO</a>', 'wc-thanks-redirect' ),
-					'id'                => 'wctr_poly_active',
-					'type'              => 'checkbox',
-					'default'           => 'no',
-					'custom_attributes' => array( 'disabled' => 'disabled' ),
-					'desc'              => __( 'Activate PolyLang and its done!', 'wc-thanks-redirect' ),
-				);				
-
-				$settings_url[] = array(
+			return array(
+				array(
 					'type' => 'sectionend',
 					'id'   => 'wctr',
-				);
-
-			} elseif ( 'wctr' === $current_section && 'rules' === $tab ) {
-
-				$rules_instance = TY_Rules::get_instance();
-
-				// Add Title to the Settings
-				$settings_url[] = array();
-
-				?>
-
-				<div class="container my-5">
-					<h2><?php esc_html_e( 'Thank You Page Rules', 'wc-thanks-redirect' ); ?></h2>
-					<p><?php esc_html_e( 'The options below facilitate the configuration of Thank You Page Rules for WooCommerce PRO, enhancing customer engagement and optimizing post-purchase communication.', 'wc-thanks-redirect' ); ?></p>
-
-					<div id="group-container"></div>
-
-					<div id="button-container" style="display:none;">
-						<p>
-							<!-- Add New Rule Group Button -->
-							<button type="button" class="button button-secondary" id="add-group-btn">
-								<?php esc_html_e( 'Add New Rule', 'wc-thanks-redirect' ); ?>
-							</button>
-							<!-- Save Changes Button -->
-							<a class="button button-primary" id="upgrade-pro" href="<?php echo esc_url( $wc_thanks_redirect_fs->get_upgrade_url() ); ?>">
-								<?php esc_html_e( 'Upgrade to PRO', 'wc-thanks-redirect' ); ?>
-							</a>
-						</p>
-						<p><?php esc_html_e( 'The Thank You Page Rules is a premium feature designed to enhance your experience. Upgrade now to access this powerful tool and take your business to the next level.', 'wc-thanks-redirect' ); ?></p>
-					</div>
-
-				</div>
-
-				<!-- Group Template -->
-				<script type="text/template" id="group-template">
-					<div class="rule-group border rounded shadow p-3 mb-4">
-						<div class="d-flex justify-content-between align-items-center mb-3">
-							<div class="d-flex align-items-center">
-								<a href="javascript:void(0)"><i class="text-secondary dashicons dashicons-menu text-decoration-none"></i></a>
-							</div>
-							<div class="d-flex align-items-center">
-								<a class="btn btn-sm remove-group-btn" title="<?php echo esc_attr( 'Remove Group', 'wc-thanks-redirect' ); ?>">
-									<i class="dashicons dashicons-remove text-danger"></i>
-								</a>
-							</div>
-						</div>
-						<div class="mb-3">
-							<label class="form-label" for="page-url"><b><?php esc_html_e( 'Page URL', 'wc-thanks-redirect' ); ?>:</b></label>
-							<div class="input-group">
-								<?php echo $rules_instance->create_dropdown_pages(); // phpcs:ignore ?>
-								<input type="url" class="form-control group-url" placeholder="<?php echo esc_attr( 'Or enter manually', 'wc-thanks-redirect' ); ?>" required>
-							</div>
-							<small class="form-text text-muted"><?php esc_html_e( 'You can select a URL from the dropdown or enter a custom URL.', 'wc-thanks-redirect' ); ?></small>
-						</div>
-						<div class="rule-list"></div> <!-- Rule list will be populated dynamically -->
-						<button type="button" class="btn btn-secondary btn-sm add-rule-btn"><?php esc_html_e( 'Add Condition', 'wc-thanks-redirect' ); ?></button>
-					</div>
-				</script>
-
-				<!-- Rule Template -->
-				<script type="text/template" id="rule-template">
-					<div class="row mb-3 rule-row">
-						<div class="col-md-3">
-							<?php echo $rules_instance->create_dropdown_options(); // phpcs:ignore ?>
-						</div>
-						<div class="col-md-3">
-							<?php echo $rules_instance->create_dropdown_operators(); //phpcs:ignore ?>
-						</div>
-						<div class="col-md-4">
-							<div class="value-input">
-								<input name="value" type="text" class="form-control input-value" placeholder="<?php echo esc_attr( 'Enter value', 'wc-thanks-redirect' ); ?>">
-							</div>
-							<div class="value-select" style="display:none;">
-								<select name="value" class="form-select select-value">
-									<option value=""><?php esc_html_e( 'Select a value', 'wc-thanks-redirect' ); ?></option>
-								</select>
-							</div>
-							<div class="value-multiselect" style="display:none;">
-								<select name="value" class="form-select select2-multiselect multiselect-value" multiple>
-									<option value=""><?php esc_html_e( 'Select multiple values', 'wc-thanks-redirect' ); ?></option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-1">
-							<select class="form-select condition-selector">
-								<option value="AND"><?php esc_html_e( 'AND', 'wc-thanks-redirect' ); ?></option>
-								<option value="OR"><?php esc_html_e( 'OR', 'wc-thanks-redirect' ); ?></option>
-							</select>
-						</div>
-						<div class="col-md-1 text-end">
-							<a href="javascript:void(0)" class="btn btn-sm remove-rule-btn" title="<?php echo esc_attr( 'Remove Rule', 'wc-thanks-redirect' ); ?>">
-								<i class="dashicons dashicons-remove text-danger"></i>
-							</a>
-						</div>
-					</div>
-				</script>
-
-				<?php
-			}
-
-			// Override Admin Fields for plugin
-			$setting_fields = apply_filters( 'wc_thanks_redirect_pro_settings_fields', $settings_url );
-
-			$settings_end[] = array(
-				'type' => 'sectionend',
-				'id'   => 'wctr',
+				),
 			);
-
-			return wp_parse_args( $settings_end, $setting_fields );
-
-			/**
-			 * If not, return the standard settings
-			 */
-		} else {
-			return $settings;
 		}
 
-		ob_get_clean();
+		$fields = $this->get_settings_tab_fields( $wc_thanks_redirect_fs );
+
+		return apply_filters( 'wc_thanks_redirect_pro_settings_fields', $fields );
+	}
+
+	/**
+	 * Render Settings Tabs
+	 *
+	 * @since 4.3.2
+	 *
+	 * @return void
+	 */
+	private function render_settings_tabs() {
+
+		$tabs = array(
+			'settings' => array(
+				'label' => __( 'Settings', 'wc-thanks-redirect' ),
+				'url'   => admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=settings' ),
+			),
+			'rules'    => array(
+				'label' => __( 'Rules ( PRO )', 'wc-thanks-redirect' ),
+				'url'   => admin_url( 'admin.php?page=wc-settings&tab=products&section=wctr&wctr-tab=rules' ),
+			),
+			'docs'     => array(
+				'label'  => __( 'Documentation', 'wc-thanks-redirect' ),
+				'url'    => WCTR_KB_URL,
+				'target' => '_blank',
+			),
+		);
+
+		$current_tab = sanitize_key( wp_unslash( $_GET['wctr-tab'] ?? 'settings' ) ); // phpcs:ignore
+		$current_tab = str_replace( 'wctr-', '', $current_tab );
+
+		echo '<div align="center" class="my-3">';
+
+		foreach ( $tabs as $key => $tab ) {
+			printf(
+				'<a href="%1$s" class="settingstab-link button %2$s" %3$s>%4$s</a> ',
+				esc_url( $tab['url'] ),
+				$current_tab === $key ? 'button-primary' : '',
+				isset( $tab['target'] ) ? 'target="_blank"' : '',
+				esc_html( $tab['label'] )
+			);
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * Get Settings Tab Fields
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param object $wc_thanks_redirect_fs Plugin Freemius instance.
+	 *
+	 * @return array
+	 */
+	private function get_settings_tab_fields( $wc_thanks_redirect_fs ) {
+
+		$helper     = Helper::get_instance();
+		$pages      = $helper->get_pages();
+		$pys_active = class_exists( '\PixelYourSite\PYS' );
+
+		$upgrade_url = esc_url( $wc_thanks_redirect_fs->get_upgrade_url() );
+
+		return array(
+
+			array(
+				'name' => __( 'Thank You Page Settings', 'wc-thanks-redirect' ),
+				'type' => 'title',
+				'desc' => __( 'Configure your WooCommerce Thank You Page settings.', 'wc-thanks-redirect' ),
+				'id'   => 'wctr',
+			),
+
+			array(
+				'name'     => __( 'Global Redirect Settings', 'wc-thanks-redirect' ),
+				'desc_tip' => __( 'Enable redirect for all orders.', 'wc-thanks-redirect' ),
+				'id'       => 'wctr_global',
+				'type'     => 'checkbox',
+				'css'      => 'min-width:300px;',
+				'desc'     => __( 'Enable Global Thank You Page', 'wc-thanks-redirect' ),
+			),
+
+			array(
+				'class'   => 'wc-enhanced-select',
+				'name'    => __( 'Thank You Page URL', 'wc-thanks-redirect' ),
+				'id'      => 'wctr_thanks_redirect_page',
+				'type'    => 'select',
+				'options' => wp_parse_args(
+					$helper->shorten( $pages, 'url', 'text' ),
+					array(
+						'' => __( 'Select URL', 'wc-thanks-redirect' ),
+					)
+				),
+				'desc'    => __( 'Select a page or enter a custom URL below.', 'wc-thanks-redirect' ),
+			),
+
+			array(
+				'id'       => 'wctr_thanks_redirect_url',
+				'type'     => 'text',
+				'desc_tip' => __( 'Redirect URL for successful orders.', 'wc-thanks-redirect' ),
+				'desc'     => __( 'Enter a valid URL.', 'wc-thanks-redirect' ),
+			),
+
+			array(
+				'name'     => __( 'Order Failure Redirect URL', 'wc-thanks-redirect' ),
+				'id'       => 'wctr_failed_redirect_url',
+				'type'     => 'text',
+				'desc_tip' => __( 'Redirect URL for failed orders.', 'wc-thanks-redirect' ),
+				'desc'     => __( 'Enter a valid URL.', 'wc-thanks-redirect' ),
+			),
+
+			array(
+				'name'     => __( 'PixelYourSite Integration', 'wc-thanks-redirect' ),
+				'type'     => 'checkbox',
+				'default'  => $pys_active ? 'yes' : 'no',
+				'desc'     => $pys_active
+					? __( 'PixelYourSite integration is active.', 'wc-thanks-redirect' )
+					: __( 'Activate PixelYourSite to enable integration.', 'wc-thanks-redirect' ),
+				'disabled' => true,
+			),
+
+			$this->get_locked_feature_field(
+				__( 'WPML Translated URL', 'wc-thanks-redirect' ),
+				'wctr_wpml_active',
+				$upgrade_url
+			),
+
+			$this->get_locked_feature_field(
+				__( 'PolyLang Translated URL', 'wc-thanks-redirect' ),
+				'wctr_poly_active',
+				$upgrade_url
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id'   => 'wctr',
+			),
+		);
+	}
+
+	/**
+	 * Render Rules Tab
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param object $wc_thanks_redirect_fs Plugin Freemius instance.
+	 *
+	 * @return void
+	 */
+	private function render_rules_tab( $wc_thanks_redirect_fs ) {
+
+		$rules_instance = TY_Rules::get_instance();
+		$upgrade_url    = esc_url( $wc_thanks_redirect_fs->get_upgrade_url() );
+
+		?>
+	<div class="container my-5">
+
+		<h2><?php esc_html_e( 'Thank You Page Rules', 'wc-thanks-redirect' ); ?></h2>
+
+		<p>
+			<?php
+			esc_html_e(
+				'Create advanced Thank You Page rules for WooCommerce based on products, categories, customer conditions, and more.',
+				'wc-thanks-redirect'
+			);
+			?>
+		</p>
+
+		<div id="group-container"></div>
+
+		<div id="button-container" style="display:none;">
+			<p>
+				<button type="button" class="button button-secondary" id="add-group-btn">
+					<?php esc_html_e( 'Add New Rule', 'wc-thanks-redirect' ); ?>
+				</button>
+
+				<a
+					class="button button-primary"
+					id="upgrade-pro"
+					href="<?php echo $upgrade_url; // phpcs:ignore ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<?php esc_html_e( 'Upgrade to PRO', 'wc-thanks-redirect' ); ?>
+				</a>
+			</p>
+
+			<p>
+				<?php
+				esc_html_e(
+					'Advanced Thank You Page Rules are available in the PRO version. Upgrade to unlock dynamic post-purchase targeting.',
+					'wc-thanks-redirect'
+				);
+				?>
+			</p>
+		</div>
+
+	</div>
+
+	<!-- Group Template -->
+	<script type="text/template" id="group-template">
+		<div class="rule-group border rounded shadow p-3 mb-4">
+
+			<div class="d-flex justify-content-between align-items-center mb-3">
+
+				<div class="d-flex align-items-center">
+					<a href="javascript:void(0)">
+						<i class="text-secondary dashicons dashicons-menu text-decoration-none"></i>
+					</a>
+				</div>
+
+				<div class="d-flex align-items-center">
+					<a
+						class="btn btn-sm remove-group-btn"
+						title="<?php echo esc_attr__( 'Remove Group', 'wc-thanks-redirect' ); ?>"
+					>
+						<i class="dashicons dashicons-remove text-danger"></i>
+					</a>
+				</div>
+
+			</div>
+
+			<div class="mb-3">
+
+				<label class="form-label" for="page-url">
+					<b><?php esc_html_e( 'Page URL', 'wc-thanks-redirect' ); ?>:</b>
+				</label>
+
+				<div class="input-group">
+					<?php echo $rules_instance->create_dropdown_pages(); // phpcs:ignore ?>
+
+					<input
+						type="url"
+						class="form-control group-url"
+						placeholder="<?php echo esc_attr__( 'Or enter manually', 'wc-thanks-redirect' ); ?>"
+						required
+					>
+				</div>
+
+				<small class="form-text text-muted">
+					<?php
+					esc_html_e(
+						'Select a page from the dropdown or enter a custom URL manually.',
+						'wc-thanks-redirect'
+					);
+					?>
+				</small>
+
+			</div>
+
+			<div class="rule-list"></div>
+
+			<button type="button" class="btn btn-secondary btn-sm add-rule-btn">
+				<?php esc_html_e( 'Add Condition', 'wc-thanks-redirect' ); ?>
+			</button>
+
+		</div>
+	</script>
+
+	<!-- Rule Template -->
+	<script type="text/template" id="rule-template">
+
+		<div class="row mb-3 rule-row">
+
+			<div class="col-md-3">
+				<?php echo $rules_instance->create_dropdown_options(); // phpcs:ignore ?>
+			</div>
+
+			<div class="col-md-3">
+				<?php echo $rules_instance->create_dropdown_operators(); // phpcs:ignore ?>
+			</div>
+
+			<div class="col-md-4">
+
+				<div class="value-input">
+					<input
+						name="value"
+						type="text"
+						class="form-control input-value"
+						placeholder="<?php echo esc_attr__( 'Enter value', 'wc-thanks-redirect' ); ?>"
+					>
+				</div>
+
+				<div class="value-select" style="display:none;">
+					<select name="value" class="form-select select-value">
+						<option value="">
+							<?php esc_html_e( 'Select a value', 'wc-thanks-redirect' ); ?>
+						</option>
+					</select>
+				</div>
+
+				<div class="value-multiselect" style="display:none;">
+					<select
+						name="value"
+						class="form-select select2-multiselect multiselect-value"
+						multiple
+					>
+						<option value="">
+							<?php esc_html_e( 'Select multiple values', 'wc-thanks-redirect' ); ?>
+						</option>
+					</select>
+				</div>
+
+			</div>
+
+			<div class="col-md-1">
+				<select class="form-select condition-selector">
+					<option value="AND">
+						<?php esc_html_e( 'AND', 'wc-thanks-redirect' ); ?>
+					</option>
+					<option value="OR">
+						<?php esc_html_e( 'OR', 'wc-thanks-redirect' ); ?>
+					</option>
+				</select>
+			</div>
+
+			<div class="col-md-1 text-end">
+				<a
+					href="javascript:void(0)"
+					class="btn btn-sm remove-rule-btn"
+					title="<?php echo esc_attr__( 'Remove Rule', 'wc-thanks-redirect' ); ?>"
+				>
+					<i class="dashicons dashicons-remove text-danger"></i>
+				</a>
+			</div>
+
+		</div>
+
+	</script>
+		<?php
+	}
+
+	/**
+	 * Get Locked Feature Field
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param string $label Field label.
+	 * @param string $id Field ID.
+	 * @param string $upgrade_url Upgrade URL.
+	 *
+	 * @return array
+	 */
+	private function get_locked_feature_field( $label, $id, $upgrade_url ) {
+
+		return array(
+			'name'              => $label,
+			'id'                => $id,
+			'type'              => 'checkbox',
+			'default'           => 'no',
+			'custom_attributes' => array(
+				'disabled' => 'disabled',
+			),
+			'desc_tip'          => sprintf(
+				__(
+					'%s is a PRO feature. Upgrade now.',
+					'wc-thanks-redirect'
+				),
+				$label
+			),
+			'desc'              => sprintf(
+				'<a href="%s">%s</a>',
+				$upgrade_url,
+				__( 'Upgrade to PRO', 'wc-thanks-redirect' )
+			),
+		);
 	}
 
 	/**

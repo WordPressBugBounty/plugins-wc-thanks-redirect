@@ -221,7 +221,7 @@ class Front {
 		$wctr_global = get_option( 'wctr_global' );
 
 		$order     = wc_get_order( $order_id );
-		$order_key = $order->order_key;
+		$order_key = $order->get_order_key();
 
 		$order_status = $order->get_status();
 

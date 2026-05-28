@@ -3,7 +3,7 @@
 /**
  * @package     Thank You Page
  * @since       4.1.6
-*/
+ */
 
 namespace NeeBPlugins\Wctr\Modules;
 
@@ -49,10 +49,10 @@ class Rules {
 				'user_role' => __( 'User Role ', 'wc-thanks-redirect' ),
 			),
 			'payment_gateways' => array(
-				'payment_method' => __( 'Payment Method', 'wc-thanks-redirect-pro' ),
+				'payment_method' => __( 'Payment Method', 'wc-thanks-redirect' ),
 			),
 			'shipping_methods' => array(
-				'shipping_method' => __( 'Shipping Method', 'wc-thanks-redirect-pro' ),
+				'shipping_method' => __( 'Shipping Method', 'wc-thanks-redirect' ),
 			),
 		);
 
@@ -118,7 +118,7 @@ class Rules {
 		$optionGroups = $this->get_option_groups();
 
 		$html  = '<select name="rule_options" class="form-select item-selector" required>';
-		$html .= '<option value="">' . esc_html__( 'Select Option', 'thank-you-page-pro' ) . '</option>';
+		$html .= '<option value="">' . esc_html__( 'Select Option', 'wc-thanks-redirect' ) . '</option>';
 
 		foreach ( $optionGroups as $groupName => $options ) {
 			$html .= '<optgroup label="' . ucfirst( $groupName ) . '">';
@@ -140,7 +140,7 @@ class Rules {
 		$operators = $this->get_operators( $selectedOption );
 
 		$html  = '<select class="form-select operator-selector" required>';
-		$html .= '<option value="">' . esc_html__( 'Select Operator', 'thank-you-page-pro' ) . '</option>';
+		$html .= '<option value="">' . esc_html__( 'Select Operator', 'wc-thanks-redirect' ) . '</option>';
 		foreach ( $operators as $value => $label ) {
 			$html .= '<option value="' . $value . '">' . $label . '</option>';
 		}
@@ -158,7 +158,7 @@ class Rules {
 	 */
 	public function create_dropdown_pages() {
 		$html  = '<select name="rule_pages" class="form-select url-dropdown" required>';
-		$html .= '<option value="">' . esc_html__( 'Select Page', 'thank-you-page-pro' ) . '</option>';
+		$html .= '<option value="">' . esc_html__( 'Select Page', 'wc-thanks-redirect' ) . '</option>';
 
 		$pages = Helper::get_instance()->get_pages();
 
@@ -307,7 +307,7 @@ class Rules {
 	 * Get the value from order data based on the rule item.
 	 *
 	 * @param string $item Rule item.
-	 * @param array $order_data Order data.
+	 * @param array  $order_data Order data.
 	 * @return mixed Value from the order data.
 	 */
 	private function get_order_data_value( $item, $order_data ) {
@@ -334,9 +334,9 @@ class Rules {
 	/**
 	 * Evaluate a single rule.
 	 *
-	 * @param mixed $data_value The value to compare.
+	 * @param mixed  $data_value The value to compare.
 	 * @param string $operator The operator to use for comparison.
-	 * @param mixed $value The value to compare against.
+	 * @param mixed  $value The value to compare against.
 	 * @return bool True if the rule is satisfied, false otherwise.
 	 */
 	private function evaluate_rule( $data_value, $operator, $value ) {
@@ -352,7 +352,7 @@ class Rules {
 				return $data_value < $value;
 			case 'in':
 				return is_array( $data_value ) ? array_intersect( $data_value, $value ) : in_array( $data_value, $value, true );
-			case 'in':
+			case 'not_in':
 				return is_array( $data_value ) ? ! array_intersect( $data_value, $value ) : ! in_array( $data_value, $value, true );
 			default:
 				return false;

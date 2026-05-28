@@ -24,7 +24,7 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 	 * @since 4.2.7
 	 */
 	public function __construct() {
-		$this->id                 = 'sandboxpaymentgateway-wctr';
+		$this->id                 = 'wctr-sandboxpayment';
 		$this->icon               = apply_filters( 'woocommerce_sandbox_payment_gateway_icon', '' );
 		$this->has_fields         = false;
 		$this->method_title       = __( 'SandBox Payment', 'wc-thanks-redirect' );
@@ -46,8 +46,7 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
 		add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
-
-		$this->init_blocks_integration();
+		
 	}
 
 	/**
@@ -140,35 +139,5 @@ class SandBoxPayment extends \WC_Payment_Gateway {
 			);
 		}
 	}
-
-	/**
-	 * Init Blocks integration
-	 *
-	 * @since 4.2.7
-	 */
-	public function init_blocks_integration() {
-		if ( ! class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
-			return;
-		}
-
-		add_action(
-			'woocommerce_blocks_payment_method_type_registration',
-			function ( $registry ) {
-				if ( ! class_exists( 'NeeBPlugins\\Wctr\\Compatibility\\SandBoxPaymentBlocksSupport' ) ) {
-					require_once WCTR_PLUGIN_DIR . 'src/Compatibility/SandBoxPaymentBlocksSupport.php';
-				}
-				$registry->register( new SandBoxPaymentBlocksSupport() );
-			}
-		);
-
-		add_filter(
-			'woocommerce_block_cart_and_checkout_payment_methods',
-			function ( $payment_method_ids ) {
-				if ( current_user_can( 'administrator' ) && in_array( $this->id, WC()->payment_gateways->get_payment_gateway_ids(), true ) ) {
-					$payment_method_ids[] = $this->id;
-				}
-				return array_unique( $payment_method_ids );
-			}
-		);
-	}
+	
 }
