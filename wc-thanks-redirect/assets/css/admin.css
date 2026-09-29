@@ -66,3 +66,145 @@ body.wctr-admin {
     overflow-y: auto;
     /* Enable scrolling if needed */
 }
+
+/* ------------------------------------------------------------------ */
+/* Thank You Page admin screen                                        */
+/*                                                                     */
+/* Colours intentionally rely on WP core classes (.button,             */
+/* .button-primary) and the --wp-admin-theme-color custom property     */
+/* WordPress core already exposes on every admin page, so the page     */
+/* follows whatever admin colour scheme the user has selected. Fixed   */
+/* neutrals/success/warning are WP core's own scheme-independent       */
+/* colours, used deliberately so PRO/locked cues don't invent a        */
+/* separate brand palette.                                             */
+/* ------------------------------------------------------------------ */
+
+.wctr-admin-wrap {
+    --wctr-accent: var( --wp-admin-theme-color, #2271b1 );
+    --wctr-accent-dark: var( --wp-admin-theme-color-darker-10, #135e96 );
+    --wctr-border: #dcdcde;
+    --wctr-border-soft: #e9e9ea;
+    --wctr-surface-muted: #f6f7f7;
+    --wctr-text-muted: #646970;
+    --wctr-success: #00a32a;
+    --wctr-success-tint: #edfaef;
+    --wctr-success-border: #b8e6c1;
+    --wctr-warning: #dba617;
+    --wctr-warning-tint: #fcf9e8;
+    --wctr-warning-border: #efd9a8;
+}
+
+/* Layout (flex/grid/spacing) for the header, tabs, sections and fields
+ * comes from Bootstrap 5 utility/grid classes in the markup. What's left
+ * here is colour only, tied to WP core's own scheme-independent tokens
+ * (see note above) rather than Bootstrap's default palette. */
+
+.wctr-text-muted {
+    color: var( --wctr-text-muted );
+}
+
+.wctr-page-header h1 .dashicons-yes-alt {
+    color: var( --wctr-success );
+}
+
+/* ---- Intro callout ---- */
+.wctr-intro {
+    background: var( --wctr-surface-muted );
+    border: 1px solid var( --wctr-border-soft );
+    color: var( --wctr-text-muted );
+}
+
+.wctr-intro a {
+    font-weight: 600;
+}
+
+/* Bootstrap's .border-top utility hardcodes its own border colour;
+ * repoint it at WP's soft divider colour within this page. */
+.wctr-admin-wrap .border-top {
+    border-top-color: var( --wctr-border-soft ) !important;
+}
+
+.wctr-field input[type="text"],
+.wctr-field select {
+    width: 100%;
+}
+
+.wctr-field input[disabled],
+.wctr-field select[disabled] {
+    background: var( --wctr-surface-muted );
+    color: #a7aaad;
+}
+
+input[type="checkbox"]:not( [disabled] ) {
+    accent-color: var( --wctr-accent );
+}
+
+/* ---- Badges ---- */
+.wctr-badge-success {
+    background: var( --wctr-success-tint );
+    color: var( --wctr-success );
+    border: 1px solid var( --wctr-success-border );
+}
+
+.wctr-badge-muted {
+    background: var( --wctr-surface-muted );
+    color: var( --wctr-text-muted );
+    border: 1px solid var( --wctr-border );
+}
+
+.wctr-badge-locked {
+    background: var( --wctr-warning-tint );
+    color: var( --wctr-warning );
+    border: 1px solid var( --wctr-warning-border );
+}
+
+/* ---- PRO / locked section + fields ---- */
+.wctr-section--pro h2 {
+    color: var( --wctr-warning );
+}
+
+.wctr-locked-field {
+    padding: 10px 14px;
+    background: var( --wctr-warning-tint );
+    border-radius: 4px;
+    box-shadow: inset 3px 0 0 var( --wctr-warning );
+}
+
+.wctr-locked-field label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 13.5px;
+}
+
+.wctr-locked-field p a {
+    color: var( --wctr-warning );
+    font-weight: 600;
+}
+
+/* ---- Rules tab ---- */
+.wctr-rules-cta {
+    color: var( --wctr-text-muted );
+}
+
+.wctr-compare h2 {
+    margin-bottom: 0.25em;
+}
+
+.wctr-compare-table {
+    margin-top: 0.75em;
+    width: 100%;
+}
+
+.wctr-compare-cell {
+    text-align: center;
+}
+
+.wctr-compare-table .wctr-yes {
+    color: var( --wctr-success );
+}
+
+.wctr-compare-table .wctr-lock {
+    color: var( --wctr-warning );
+}

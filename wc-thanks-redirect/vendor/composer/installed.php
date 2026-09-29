@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'neebplugins/wc-thanks-redirect',
-        'pretty_version' => 'dev-release/4.3.2',
-        'version' => 'dev-release/4.3.2',
-        'reference' => '581a5e31650693cefab56ca43f6d7f872d7db773',
+        'pretty_version' => 'dev-release/4.3.3',
+        'version' => 'dev-release/4.3.3',
+        'reference' => '644cb9ebb4dd280cba7733c164ca7b3e193ed483',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,18 +11,18 @@
     ),
     'versions' => array(
         'freemius/wordpress-sdk' => array(
-            'pretty_version' => '2.13.1',
-            'version' => '2.13.1.0',
-            'reference' => '7376c0eca1ae7f92aaba9d3b550bd10affe797ff',
+            'pretty_version' => '2.13.4',
+            'version' => '2.13.4.0',
+            'reference' => 'fa43eb92ae9dffa0d9f5ae11b5a1739bd7222308',
             'type' => 'library',
             'install_path' => __DIR__ . '/../freemius/wordpress-sdk',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'neebplugins/wc-thanks-redirect' => array(
-            'pretty_version' => 'dev-release/4.3.2',
-            'version' => 'dev-release/4.3.2',
-            'reference' => '581a5e31650693cefab56ca43f6d7f872d7db773',
+            'pretty_version' => 'dev-release/4.3.3',
+            'version' => 'dev-release/4.3.3',
+            'reference' => '644cb9ebb4dd280cba7733c164ca7b3e193ed483',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

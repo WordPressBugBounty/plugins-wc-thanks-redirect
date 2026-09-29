@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.3.2
+ * Version:           4.3.3
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -19,9 +19,9 @@
  * Domain Path:       /languages/
  * Requires PHP:      7.4
  * Requires at least: 6.2
- * Tested up to: 7.0
+ * Tested up to: 7.1
  * WC requires at least: 8.2
- * WC tested up to: 10.8
+ * WC tested up to: 11.1
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
@@ -32,7 +32,7 @@ use NeeBPlugins\Wctr\Compatibility\SandBoxPaymentBlocksSupport as WCTR_BlocksSup
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.3.2' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.3.3' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
@@ -65,9 +65,10 @@ if ( ! function_exists( 'wc_thanks_redirect_fs' ) ) {
 					'is_premium_only' => false,
 					'has_addons'      => false,
 					'has_paid_plans'  => true,
-					'has_affiliation' => false,
+					'has_affiliation' => true,
 					'menu'            => array(
-						'first-path' => 'admin.php?page=wc-settings&tab=products&section=wctr',
+						'slug'       => 'wc-thanks-redirect',
+						'first-path' => 'admin.php?page=wc-thanks-redirect',
 						'support'    => false,
 					),
 					'anonymous_mode'  => true,
@@ -191,7 +192,7 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			$upgrade_url = wc_thanks_redirect_fs()->get_upgrade_url();
 			$links       = array_merge(
 				array(
-					'<a href="' . esc_url( site_url() . '/wp-admin/admin.php?page=wc-settings&tab=products&section=wctr' ) . '">' . __( 'Settings', 'wc-thanks-redirect' ) . '</a>',
+					'<a href="' . esc_url( admin_url( 'admin.php?page=wc-thanks-redirect' ) ) . '">' . __( 'Settings', 'wc-thanks-redirect' ) . '</a>',
 					'<a style="color:green;font-weight:bold;" href="' . esc_url( $upgrade_url ) . '">' . __( 'Go PRO!', 'wc-thanks-redirect' ) . '</a>',
 					'<a target="_blank" href="' . esc_url( WCTR_KB_URL ) . '">' . __( 'Documentation', 'wc-thanks-redirect' ) . '</a>',
 					'<a target="_blank" href="' . esc_url( 'https://nitin247.com/support/' ) . '">' . __( 'Support Desk', 'wc-thanks-redirect' ) . '</a>',

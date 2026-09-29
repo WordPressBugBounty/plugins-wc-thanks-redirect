@@ -8,7 +8,7 @@
 namespace NeeBPlugins\Wctr\Compatibility;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use NeeBPlugins\Wctr\Modules\SandboxPayment as WCTR_SandboxPayment;
+use NeeBPlugins\Wctr\Modules\SandBoxPayment as WCTR_SandboxPayment;
 
 /**
  * Sandbox Payment Blocks Support

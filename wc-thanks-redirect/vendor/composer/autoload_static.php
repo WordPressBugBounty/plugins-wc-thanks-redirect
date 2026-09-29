@@ -11,14 +11,14 @@ class ComposerStaticInitda03f946e49213c947fbe07ed24bb78c
     );
 
     public static $prefixLengthsPsr4 = array (
-        'N' => 
+        'N' =>
         array (
             'NeeBPlugins\\Wctr\\' => 17,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'NeeBPlugins\\Wctr\\' => 
+        'NeeBPlugins\\Wctr\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
