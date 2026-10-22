@@ -9,6 +9,7 @@ namespace NeeBPlugins\Wctr;
 
 use NeeBPlugins\Wctr\Compatibility\PYS_Tracking as Wctr_PYS;
 use NeeBPlugins\Wctr\Modules\SandBoxPayment as WCTR_SandBoxPayment;
+use NeeBPlugins\Wctr\Modules\Mode as WCTR_Mode;
 
 class Front {
 
@@ -36,6 +37,7 @@ class Front {
 	public function __construct() {
 		/* Add Plugin shortcode */
 		add_shortcode( 'TRFW_ORDER_DETAILS', array( $this, 'shortcode_order_details' ) );
+		add_shortcode( 'TRFW_COUPON', array( $this, 'shortcode_coupon' ) );
 		/* Redirect to thank you */
 		add_action( 'woocommerce_thankyou', array( $this, 'safe_redirect' ), 99, 1 );
 		/* Add action for Footer */
@@ -54,140 +56,350 @@ class Front {
 	 */
 	public function shortcode_order_details() {
 
-		$order_key = ! empty( $_GET['order_key'] ) ? wp_kses_post( $_GET['order_key'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_key = ! empty( $_GET['order_key'] ) ? wp_kses_post( wp_unslash( $_GET['order_key'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$order_id  = wc_get_order_id_by_order_key( $order_key );
 		$order     = wc_get_order( $order_id );
 
 		if ( ! $order ) {
-			return;
+			return '';
 		}
+
+		return $this->render_order_details_html( $order );
+	}
+
+	/**
+	 * Render Order Details HTML
+	 *
+	 * Shared renderer behind the [TRFW_ORDER_DETAILS] shortcode and the
+	 * admin preview tool, so both stay in sync from a single source.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param \WC_Order $order Order object.
+	 *
+	 * @return string
+	 */
+	public function render_order_details_html( $order ) {
 
 		$order_items           = $order->get_items( apply_filters( 'woocommerce_purchase_order_item_types', 'line_item' ) );
 		$show_purchase_note    = $order->has_status( apply_filters( 'woocommerce_purchase_note_order_statuses', array( 'completed', 'processing' ) ) );
 		$show_customer_details = $order->get_user_id() === get_current_user_id();
 		$downloads             = $order->get_downloadable_items();
 		$show_downloads        = $order->has_downloadable_item() && $order->is_download_permitted();
+
 		ob_start();
-		if ( $show_downloads ) {
-			wc_get_template(
-				'order/order-downloads.php',
-				array(
-					'downloads'  => $downloads,
-					'show_title' => true,
-				)
-			);
-		}
-		?>
-		<div class="woocommerce">
-			<div class="woocommerce-order">
-				<section class="woocommerce-order-details">
-					<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
-					<header class="entry-header">
-						<h1 class="entry-title" itemprop="headline"><?php esc_html_e( 'Order received', 'wc-thanks-redirect' ); ?></h1>
-					</header>
-					<p>&nbsp;</p>
-					<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-	
-						<li class="woocommerce-order-overview__order order">
-							<?php esc_html_e( 'Order number', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order_id ); ?></strong>
-						</li>
-	
-						<li class="woocommerce-order-overview__order order">
-							<?php
-							$wctr_date_format = get_option( 'date_format' );
-							esc_html_e( 'Date', 'wc-thanks-redirect' );
-							?>
-							: <strong><?php echo wp_kses_post( wp_date( $wctr_date_format, strtotime( $order->get_date_created() ) ) ); ?></strong>
-						</li>
-	
-						<li class="woocommerce-order-overview__order order">
-							<?php esc_html_e( 'Name', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order->get_formatted_billing_full_name() ); ?></strong>
-						</li>
-	
-						<li class="woocommerce-order-overview__order order">
-							<?php esc_html_e( 'Payment Method', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></strong>
-						</li>
-	
-					</ul>
-					<h2 class="woocommerce-order-details__title"><?php esc_html_e( 'Order details', 'wc-thanks-redirect' ); ?></h2>
-	
-					<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
-	
-						<thead>
-							<tr>
-								<th class="woocommerce-table__product-name product-name"><?php esc_html_e( 'Product', 'wc-thanks-redirect' ); ?></th>
-								<th class="woocommerce-table__product-table product-total"><?php esc_html_e( 'Total', 'wc-thanks-redirect' ); ?></th>
-							</tr>
-						</thead>
-	
-						<tbody>
-							<?php
-							do_action( 'woocommerce_order_details_before_order_table_items', $order );
-							foreach ( $order_items as $item_id => $item ) {
 
-								$product = $item->get_product();
-
-								wc_get_template(
-									'order/order-details-item.php',
-									array(
-										'order'         => $order,
-										'item_id'       => $item_id,
-										'item'          => $item,
-										'show_purchase_note' => $show_purchase_note,
-										'purchase_note' => $product ? $product->get_purchase_note() : '',
-										'product'       => $product,
-									)
-								);
-							}
-							do_action( 'woocommerce_order_details_after_order_table_items', $order );
-							?>
-						</tbody>
-	
-						<tfoot>
-							<?php
-							foreach ( $order->get_order_item_totals() as $key => $total ) {
-								?>
-								<tr>
-									<th scope="row"><?php echo esc_html( $total['label'] ); ?></th>
-									<td><?php echo ( 'payment_method' === $key ) ? wp_kses_post( $total['value'] ) : wp_kses_post( $total['value'] ); // phpcs:ignore ?></td>
-								</tr>
-								<?php
-							}
-							?>
-							<?php if ( $order->get_customer_note() ) : ?>
-								<tr>
-									<th><?php esc_html_e( 'Note', 'wc-thanks-redirect' ); ?>:</th>
-									<td><?php echo wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ); ?></td>
-								</tr>
-							<?php endif; ?>
-						</tfoot>
-					</table>
-					<?php do_action( 'woocommerce_order_details_after_order_table', $order ); ?>
-				</section>
-			</div>
-		</div>
-		<?php
 		/**
-		 * Action hook fired after the order details.
+		 * Fires before the plugin renders the order details block.
 		 *
 		 * @since 4.4.0
-		 * @param WC_Order $order Order data.
+		 * @param \WC_Order $order Order object.
 		 */
-		do_action( 'woocommerce_after_order_details', $order );
+		do_action( 'wctr_before_order_details', $order );
 
-		if ( $show_customer_details ) {
-			wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) );
+		?>
+		<div class="wctr-order-details">
+			<?php
+			if ( $show_downloads ) {
+				wc_get_template(
+					'order/order-downloads.php',
+					array(
+						'downloads'  => $downloads,
+						'show_title' => true,
+					)
+				);
+			}
+			?>
+			<div class="woocommerce">
+				<div class="woocommerce-order">
+					<section class="woocommerce-order-details">
+						<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
+						<header class="entry-header">
+							<h1 class="entry-title" itemprop="headline"><?php esc_html_e( 'Order received', 'wc-thanks-redirect' ); ?></h1>
+						</header>
+						<p>&nbsp;</p>
+						<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+
+							<li class="woocommerce-order-overview__order order">
+								<?php esc_html_e( 'Order number', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order->get_order_number() ); ?></strong>
+							</li>
+
+							<li class="woocommerce-order-overview__order order">
+								<?php
+								$wctr_date_format = get_option( 'date_format' );
+								esc_html_e( 'Date', 'wc-thanks-redirect' );
+								?>
+								: <strong><?php echo wp_kses_post( wp_date( $wctr_date_format, $order->get_date_created() ? $order->get_date_created()->getTimestamp() : time() ) ); ?></strong>
+							</li>
+
+							<li class="woocommerce-order-overview__order order">
+								<?php esc_html_e( 'Name', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order->get_formatted_billing_full_name() ); ?></strong>
+							</li>
+
+							<li class="woocommerce-order-overview__order order">
+								<?php esc_html_e( 'Payment Method', 'wc-thanks-redirect' ); ?>: <strong><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></strong>
+							</li>
+
+						</ul>
+						<h2 class="woocommerce-order-details__title"><?php esc_html_e( 'Order details', 'wc-thanks-redirect' ); ?></h2>
+
+						<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
+
+							<thead>
+								<tr>
+									<th class="woocommerce-table__product-name product-name"><?php esc_html_e( 'Product', 'wc-thanks-redirect' ); ?></th>
+									<th class="woocommerce-table__product-table product-total"><?php esc_html_e( 'Total', 'wc-thanks-redirect' ); ?></th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<?php
+								do_action( 'woocommerce_order_details_before_order_table_items', $order );
+								foreach ( $order_items as $item_id => $item ) {
+
+									$product = $item->get_product();
+
+									wc_get_template(
+										'order/order-details-item.php',
+										array(
+											'order'               => $order,
+											'item_id'             => $item_id,
+											'item'                => $item,
+											'show_purchase_note'  => $show_purchase_note,
+											'purchase_note'       => $product ? $product->get_purchase_note() : '',
+											'product'             => $product,
+										)
+									);
+								}
+								do_action( 'woocommerce_order_details_after_order_table_items', $order );
+								?>
+							</tbody>
+
+							<tfoot>
+								<?php
+								foreach ( $order->get_order_item_totals() as $key => $total ) {
+									?>
+									<tr>
+										<th scope="row"><?php echo esc_html( $total['label'] ); ?></th>
+										<td><?php echo wp_kses_post( $total['value'] ); ?></td>
+									</tr>
+									<?php
+								}
+								?>
+								<?php if ( $order->get_customer_note() ) : ?>
+									<tr>
+										<th><?php esc_html_e( 'Note', 'wc-thanks-redirect' ); ?>:</th>
+										<td><?php echo wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ); ?></td>
+									</tr>
+								<?php endif; ?>
+							</tfoot>
+						</table>
+						<?php do_action( 'woocommerce_order_details_after_order_table', $order ); ?>
+					</section>
+				</div>
+			</div>
+			<?php
+			if ( $show_customer_details ) {
+				wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) );
+			}
+			?>
+		</div>
+		<?php
+
+		/**
+		 * Fires after the plugin renders the order details block.
+		 *
+		 * @since 4.4.0
+		 * @param \WC_Order $order Order data.
+		 */
+		do_action( 'wctr_after_order_details', $order );
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Shortcode Coupon
+	 *
+	 * Renders the post-purchase coupon message configured in Settings, as
+	 * long as the selected coupon still exists and hasn't expired. Admins
+	 * create the coupon itself in WooCommerce → Coupons; this only surfaces
+	 * it on the Thank You page.
+	 *
+	 * @since 4.4.0
+	 * @return string
+	 */
+	public function shortcode_coupon() {
+
+		$code = get_option( 'wctr_coupon_code', '' );
+
+		if ( empty( $code ) ) {
+			return '';
 		}
 
-		$shortcode_output = ob_get_clean();
-		return $shortcode_output;
+		$coupon = new \WC_Coupon( $code );
+
+		if ( ! $coupon->get_id() ) {
+			return '';
+		}
+
+		$expiry_date = $coupon->get_date_expires();
+
+		if ( $expiry_date && $expiry_date->getTimestamp() < time() ) {
+			return '';
+		}
+
+		$message = get_option( 'wctr_coupon_message', Helper::get_instance()->default_coupon_message() );
+		$message = str_replace(
+			'{coupon_code}',
+			'<strong>' . esc_html( $coupon->get_code() ) . '</strong>',
+			esc_html( $message )
+		);
+
+		return '<p class="wctr-coupon-notice">' . $message . '</p>';
+	}
+
+	/**
+	 * Build the per-product and global redirect candidates for an order.
+	 *
+	 * Kept separate from resolve_target_url() so the admin preview tool can
+	 * inspect both the "success" and "failed" candidate at once, while
+	 * safe_redirect() only cares about the one matching the order's actual
+	 * status.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param \WC_Order $order Order object.
+	 *
+	 * @return array {
+	 *     @type array $product { @type string|null $thankyou @type string|null $failed }
+	 *     @type array $global  { @type string|null $thankyou @type string|null $failed }
+	 * }
+	 */
+	private function get_redirect_candidates( $order ) {
+
+		$order_key    = $order->get_order_key();
+		$order_string = '&order_key=' . $order_key;
+
+		$product = array(
+			'thankyou' => null,
+			'failed'   => null,
+		);
+		$global  = array(
+			'thankyou' => null,
+			'failed'   => null,
+		);
+
+		$redirects = array();
+
+		foreach ( $order->get_items() as $_item ) { // phpcs:ignore
+			$product_id  = $_item->get_product_id();
+			$thanks_meta = get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true );
+
+			if ( empty( $thanks_meta ) ) {
+				continue;
+			}
+
+			$parsed = wp_parse_url( $thanks_meta );
+
+			if ( empty( $parsed['host'] ) ) {
+				continue;
+			}
+
+			$thanks_url = $parsed['scheme'] . '://' . $parsed['host']
+				. ( ! empty( $parsed['port'] ) ? ':' . $parsed['port'] : '' )
+				. ( $parsed['path'] ?? '' ) . '?' . ( $parsed['query'] ?? '' ) . $order_string;
+
+			$url_priority = get_post_meta( $product_id, 'wc_thanks_redirect_url_priority', true );
+
+			$redirects[] = array(
+				'thankyou' => $thanks_url,
+				'failed'   => get_post_meta( $product_id, 'wc_thanks_redirect_custom_failure', true ),
+				'priority' => ( '' !== $url_priority ) ? (int) $url_priority : PHP_INT_MAX,
+			);
+		}
+
+		if ( ! empty( $redirects ) ) {
+			array_multisort( array_column( $redirects, 'priority' ), SORT_ASC, $redirects );
+
+			if ( filter_var( $redirects[0]['thankyou'], FILTER_VALIDATE_URL ) ) {
+				$product['thankyou'] = $redirects[0]['thankyou'];
+			}
+
+			if ( filter_var( $redirects[0]['failed'], FILTER_VALIDATE_URL ) ) {
+				$product['failed'] = $redirects[0]['failed'];
+			}
+		}
+
+		if ( 'yes' === strtolower( (string) get_option( 'wctr_global', 'no' ) ) ) {
+
+			$parsed   = wp_parse_url( (string) get_option( 'wctr_thanks_redirect_url' ) );
+			$fail_url = get_option( 'wctr_failed_redirect_url' );
+
+			if ( ! empty( $parsed['host'] ) ) {
+				$thanks_url = $parsed['scheme'] . '://' . $parsed['host']
+					. ( ! empty( $parsed['port'] ) ? ':' . $parsed['port'] : '' )
+					. ( $parsed['path'] ?? '' ) . '?' . ( $parsed['query'] ?? '' ) . $order_string;
+
+				if ( filter_var( $thanks_url, FILTER_VALIDATE_URL ) ) {
+					$global['thankyou'] = $thanks_url;
+				}
+			}
+
+			if ( filter_var( $fail_url, FILTER_VALIDATE_URL ) ) {
+				$global['failed'] = $fail_url;
+			}
+		}
+
+		return array(
+			'product' => $product,
+			'global'  => $global,
+		);
+	}
+
+	/**
+	 * Resolve the redirect target for an order.
+	 *
+	 * Product-level redirects always take precedence over the global
+	 * fallback, matching the plugin's existing (pre-4.4.0) behaviour.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param \WC_Order   $order  Order object.
+	 * @param string|null $status Order status to resolve for; defaults to the order's current status.
+	 *
+	 * @return array { @type string $type 'product'|'global'|'none' @type string|null $url }
+	 */
+	public function resolve_target_url( $order, $status = null ) {
+
+		$status     = $status ?? $order->get_status();
+		$candidates = $this->get_redirect_candidates( $order );
+		$key        = ( 'failed' === $status ) ? 'failed' : 'thankyou';
+
+		if ( ! empty( $candidates['product'][ $key ] ) ) {
+			return array(
+				'type' => 'product',
+				'url'  => $candidates['product'][ $key ],
+			);
+		}
+
+		if ( ! empty( $candidates['global'][ $key ] ) ) {
+			return array(
+				'type' => 'global',
+				'url'  => $candidates['global'][ $key ],
+			);
+		}
+
+		return array(
+			'type' => 'none',
+			'url'  => null,
+		);
 	}
 
 	/**
 	 * Safe Redirect.
 	 *
 	 * @since 4.2.0
-	 * @param WC_Order $order_id
+	 * @param int $order_id Order ID.
 	 * @return void
 	 */
 	public function safe_redirect( $order_id ) {
@@ -214,81 +426,25 @@ class Front {
 		| If returning from Mollie, ensure payment is completed
 		| Mollie adds: filter_flag=onMollieReturn
 		*/
-		if (isset( $_GET['filter_flag'] ) && 'onMollieReturn' === $_GET['filter_flag'] && ! $order->is_paid() ) { // phpcs:ignore
+		if ( isset( $_GET['filter_flag'] ) && 'onMollieReturn' === $_GET['filter_flag'] && ! $order->is_paid() ) { // phpcs:ignore
 			return;
 		}
 
-		$wctr_global = get_option( 'wctr_global' );
-
-		$order     = wc_get_order( $order_id );
-		$order_key = $order->get_order_key();
-
-		$order_status = $order->get_status();
-
-		$order_items = $order->get_items();
-		$redirects   = array();
-		$priority    = array();
-
-		foreach ($order_items as $key => $_item) { // phpcs:ignore
-			$product_id              = $_item->get_product_id();
-			$product_meta_thanks_url = get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true );
-
-			if ( ! empty( $product_meta_thanks_url ) ) {
-				$order_string  = "&order_key=$order_key";
-				$thank_you_url = wp_parse_url( get_post_meta( $product_id, 'wc_thanks_redirect_custom_thankyou', true ) );
-				$url_priority  = get_post_meta( $product_id, 'wc_thanks_redirect_url_priority', true );
-
-				$product_thanks = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . $thank_you_url['path'] . '?' . ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' ) . $order_string;
-				$product_failed = get_post_meta( $product_id, 'wc_thanks_redirect_custom_failure', true );
-
-				$priority['thankyou'] = $product_thanks;
-				$priority['failed']   = $product_failed;
-				$priority['priority'] = $url_priority;
-
-				$redirects[] = $priority;
-
-			}
+		// Sandbox mode: custom redirects only apply to administrators.
+		if ( ! WCTR_Mode::applies_to_current_user() ) {
+			return;
 		}
 
-		if ( ! empty( $redirects ) ) {
+		$target = $this->resolve_target_url( $order );
 
-			array_multisort( array_column( $redirects, 'priority' ), SORT_ASC, $redirects );
-
-			if ( $order_status !== 'failed' ) {
-					// Check If URL is valid
-				if ( filter_var( $redirects[0]['thankyou'], FILTER_VALIDATE_URL ) ) {
-					wp_redirect( $redirects[0]['thankyou'] );
-					exit;
-				}
-			} else {
-				// Check If URL is valid
-				if ( filter_var( $redirects[0]['failed'], FILTER_VALIDATE_URL ) ) {
-					wp_redirect( $redirects[0]['failed'] );
-					exit;
-				}
-			}
+		if ( 'none' === $target['type'] || empty( $target['url'] ) ) {
+			return;
 		}
 
-		if ( isset( $wctr_global ) && strtolower( $wctr_global ) === 'yes' ) {
-			$thank_you_url = get_option( 'wctr_thanks_redirect_url' );
-			$fail_url      = get_option( 'wctr_failed_redirect_url' );
+		$redirect_url = add_query_arg( 'wctr_redirect_done', '1', $target['url'] );
 
-			$thank_you_url = wp_parse_url( $thank_you_url );
-
-			$order_string = "&order_key=$order_key";
-
-			$thanks_url = $thank_you_url['scheme'] . '://' . $thank_you_url['host'] . ( ! empty( $thank_you_url['port'] ) ? ':' . $thank_you_url['port'] : '' ) . $thank_you_url['path'] . '?'
-			. ( ! empty( $thank_you_url['query'] ) ? $thank_you_url['query'] : '' )
-			. $order_string;
-
-			if ( $order_status !== 'failed' ) {
-				wp_redirect( $thanks_url );
-				exit;
-			} else {
-				wp_redirect( $fail_url );
-				exit;
-			}
-		}
+		wp_redirect( esc_url_raw( $redirect_url ) ); // phpcs:ignore WordPress.Security.SafeRedirect
+		exit;
 	}
 
 	/**
@@ -353,7 +509,7 @@ class Front {
 					coupon: '<?php echo esc_js( $coupon_code ); ?>',
 					items: <?php echo wp_json_encode( $items_data ); ?>
 				}
-			});						
+			});
 		</script>
 		<?php
 	}
@@ -386,7 +542,7 @@ class Front {
 	 * @return void
 	 */
 	public function load_tracking() {
-		if ( isset( $_GET['order_key'] ) && class_exists( '\PixelYourSite\PYS' ) ) { // phpcs:ignore 
+		if ( isset( $_GET['order_key'] ) && class_exists( '\PixelYourSite\PYS' ) ) { // phpcs:ignore
 			Wctr_PYS::get_instance();
 		}
 	}

@@ -3,6 +3,36 @@
 
 jQuery(function ($) {
 
+    // Sandbox/Live mode toggle: update the hint badge's color and text
+    // immediately, without waiting for the settings form to be saved.
+    var $modeSection = $('#wctr-mode-section');
+
+    if ($modeSection.length) {
+        var $modeHint     = $('#wctr-mode-hint');
+        var $modeHintText = $('#wctr-mode-hint-text');
+
+        $modeSection.on('change', '#wctr-mode-select', function () {
+            var isLive = 'live' === $(this).val();
+
+            $modeHint
+                .removeClass('wctr-badge-live wctr-badge-sandbox')
+                .addClass(isLive ? 'wctr-badge-live' : 'wctr-badge-sandbox');
+
+            $modeHintText.text($modeSection.data(isLive ? 'hintLive' : 'hintSandbox'));
+        });
+    }
+
+    // Global Thank You Page toggle: dim the URL fields below while it's off,
+    // purely visual — the fields stay in the form and still save either way.
+    var $globalToggle = $('#wctr_global');
+    var $globalFields  = $('#wctr-global-fields');
+
+    if ($globalToggle.length && $globalFields.length) {
+        $globalToggle.on('change', function () {
+            $globalFields.toggleClass('wctr-fields-disabled', !this.checked);
+        });
+    }
+
     $('#group-container').sortable({
         items: '.rule-group',
         placeholder: 'ui-state-highlight',
@@ -534,71 +564,137 @@ jQuery(function ($) {
         $('#wctr_thanks_redirect_url').val($(this).val());
     })
 
-    // Event listener for changing item-selector
+    // Upgrade modal: accessible dialog shown whenever a free user touches
+    // anything Rules-related, since Rules doesn't actually save in this
+    // free build. Built once, content swapped per trigger. Defaults to a
+    // no-op so every caller below can call it unconditionally even when
+    // upsell UI is switched off via WCTR_SHOW_UPSELL.
+    var openUpsellModal = function () {};
+    var $upsellModal = $('#wctr-upsell-modal');
+
+    if ($upsellModal.length && wctr_config.showUpsell) {
+        var $upsellPanel = $upsellModal.find('.wctr-modal__panel');
+        var $upsellTitle = $('#wctr-upsell-modal-title');
+        var $upsellDesc = $('#wctr-upsell-modal-desc');
+        var $upsellPrimary = $('#wctr-upsell-modal-primary');
+        var upsellLastFocused = null;
+
+        var closeUpsellModal = function () {
+            $upsellModal.prop('hidden', true);
+            $(document).off('keydown.wctrUpsellModal');
+
+            if (upsellLastFocused && typeof upsellLastFocused.focus === 'function') {
+                upsellLastFocused.focus();
+            }
+        };
+
+        var onUpsellModalKeydown = function (event) {
+            if (event.key === 'Escape') {
+                closeUpsellModal();
+                return;
+            }
+
+            if (event.key !== 'Tab') {
+                return;
+            }
+
+            var focusable = $upsellPanel.find('a[href], button').filter(':visible');
+            if (!focusable.length) {
+                return;
+            }
+
+            var first = focusable.first()[0];
+            var last = focusable.last()[0];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        openUpsellModal = function (condition) {
+            var upsell = wctr_config.upsell || {};
+            var conditions = upsell.conditions || {};
+            var benefits = upsell.benefits || {};
+
+            var conditionLabel = condition && conditions[condition] ? conditions[condition] : '';
+            var benefit = (condition && benefits[condition]) ? benefits[condition] : benefits.generic;
+
+            $upsellTitle.text(
+                conditionLabel
+                    ? conditionLabel + ' rules are a PRO feature'
+                    : 'Thank You Page Rules are a PRO feature'
+            );
+            $upsellDesc.text(benefit || '');
+
+            if (upsell.trialUrl) {
+                $upsellPrimary.attr('href', upsell.trialUrl).text('Start 7-day free trial');
+            } else {
+                $upsellPrimary.attr('href', upsell.upgradeUrl).text('Upgrade to PRO');
+            }
+
+            upsellLastFocused = document.activeElement;
+
+            $upsellModal.prop('hidden', false);
+            $upsellPanel.find('.wctr-modal__close').trigger('focus');
+
+            $(document).on('keydown.wctrUpsellModal', onUpsellModalKeydown);
+        };
+
+        $upsellModal.on('click', '[data-wctr-modal-close]', closeUpsellModal);
+    }
+
+    // Event listener for changing item-selector: this free build's Rules
+    // builder is preview-only (nothing here is ever actually saved), so
+    // picking any condition surfaces the upgrade modal alongside the
+    // existing value-field swap.
     $(document).on('change', '.item-selector', function () {
         var ruleElement = $(this).closest('.rule-row');
         setValue(ruleElement);
+
+        var condition = $(this).val();
+        if (condition) {
+            openUpsellModal(condition);
+        }
     });
 
-    $('#wctrpro-save-tyrules').on('click', function () {
-        var data = {
-            rules: []
-        };
+    // "Save Rules" never calls the save endpoint in this free build —
+    // Rules is preview-only here, so Save always surfaces the upgrade
+    // modal instead.
+    $(document).on('click', '#save-rules-btn', function () {
+        openUpsellModal();
+    });
 
-        $('.rule-group').each(function () {
-            var groupUrl = $(this).find('.group-url').val();
-            var rules = [];
+    // Starter template cards: prefill a group+rule for the matching
+    // condition, then show the upgrade modal for it.
+    var STARTER_TEMPLATE_DEFAULTS = {
+        payment_method: { operator: 'in' },
+        product_category: { operator: 'in' },
+        user_role: { operator: 'in' },
+        shipping_method: { operator: 'in' }
+    };
 
-            $(this).find('.rule-row').each(function () {
-                var item = $(this).find('.item-selector').val();
-                var operator = $(this).find('.operator-selector').val();
-                var value = '';
-                var condition = $(this).find('.condition-selector').val();
+    $(document).on('click', '[data-wctr-template-condition]', function () {
+        var condition = $(this).data('wctr-template-condition');
+        var groupElement = addGroup(true);
+        var ruleElement = groupElement.find('.rule-row').first();
 
-                switch (item) {
-                    case 'user_role':
-                    case 'user_status':
-                    case 'product_category':
-                    case 'product_variation':
-                    case 'product_tag':
-                    case 'product_name':
-                        value = $(this).find('.multiselect-value').val();
-                        break;
+        if (!ruleElement.length) {
+            ruleElement = addRule(groupElement);
+        }
 
-                    default:
-                        value = $(this).find('.input-value').val();
-                }
+        ruleElement.find('.item-selector').val(condition);
+        setValue(ruleElement);
 
-                rules.push({
-                    item: item,
-                    operator: operator,
-                    value: value,
-                    condition: condition
-                });
-            });
+        var defaults = STARTER_TEMPLATE_DEFAULTS[condition];
+        if (defaults && defaults.operator) {
+            ruleElement.find('.operator-selector').val(defaults.operator);
+        }
 
-            data.rules.push({
-                groupUrl: groupUrl,
-                rules: rules
-            });
-        });
-
-        $.ajax({
-            type: "POST",
-            url: wctr_config.restApiBase + 'tyrules/save',
-            data: data,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-WP-Nonce', wctr_config.nonce);
-            },
-            success: function (response) {
-                toastr.success('Rules have been updated!', 'Success');
-                window.onbeforeunload = null;
-                $(window).off("beforeunload");
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                toastr.error('Some error occurred, please try again in some time!', 'Error!');
-            }
-        });
+        openUpsellModal(condition);
     });
 
 });

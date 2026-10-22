@@ -1,0 +1,15 @@
+{
+	"apiVersion": 3,
+	"name": "wctr/order-details",
+	"title": "Order Details (Thank You Page)",
+	"category": "wctr-thank-you-page",
+	"icon": "list-view",
+	"description": "Shows the customer's order number, date, items, totals and address — the same output as the [TRFW_ORDER_DETAILS] shortcode.",
+	"keywords": [ "thank you", "order", "woocommerce", "receipt" ],
+	"textdomain": "wc-thanks-redirect",
+	"editorScript": "file:./index.js",
+	"supports": {
+		"html": false,
+		"multiple": false
+	}
+}

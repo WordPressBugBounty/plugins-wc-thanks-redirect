@@ -1,0 +1,15 @@
+{
+	"apiVersion": 3,
+	"name": "wctr/coupon",
+	"title": "Post-Purchase Coupon (Thank You Page)",
+	"category": "wctr-thank-you-page",
+	"icon": "tickets-alt",
+	"description": "Shows the coupon configured in Thank You Page → Settings — the same output as the [TRFW_COUPON] shortcode.",
+	"keywords": [ "thank you", "coupon", "discount", "woocommerce" ],
+	"textdomain": "wc-thanks-redirect",
+	"editorScript": "file:./index.js",
+	"supports": {
+		"html": false,
+		"multiple": false
+	}
+}

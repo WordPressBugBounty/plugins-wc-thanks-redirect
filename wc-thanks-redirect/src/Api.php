@@ -85,7 +85,7 @@ class Api {
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'fetch_ty_rules' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'get_write_api_permission_check' ),
 				),
 			)
 		);
@@ -306,11 +306,15 @@ class Api {
 	/**
 	 * Get write api permission check
 	 *
+	 * Uses `manage_woocommerce` (not `manage_options`) so Shop Managers can
+	 * use the Rules builder, matching the capability the Thank You Page
+	 * settings screen itself already requires.
+	 *
 	 * @since 4.1.6
 	 *
 	 * @return boolean
 	 */
 	public function get_write_api_permission_check() {
-		return current_user_can( 'manage_options' ) ? true : false;
+		return current_user_can( 'manage_woocommerce' );
 	}
 }

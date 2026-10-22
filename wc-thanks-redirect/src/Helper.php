@@ -85,6 +85,51 @@ class Helper {
 	}
 
 	/**
+	 * Get coupons
+	 *
+	 * Published WooCommerce coupons, for the Post-Purchase Coupon setting's
+	 * dropdown.
+	 *
+	 * @since 4.4.0
+	 * @return array
+	 */
+	public function get_coupons() {
+		$coupons = get_posts(
+			array(
+				'post_type'      => 'shop_coupon',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			)
+		);
+
+		$coupon_info = array();
+
+		foreach ( $coupons as $coupon ) {
+			$coupon_info[] = array(
+				'id'   => $coupon->post_title,
+				'text' => $coupon->post_title,
+			);
+		}
+
+		return $coupon_info;
+	}
+
+	/**
+	 * Default Coupon Message
+	 *
+	 * Shared default for the wctr_coupon_message option, so the Settings
+	 * screen and the [TRFW_COUPON] shortcode never drift apart.
+	 *
+	 * @since 4.4.0
+	 * @return string
+	 */
+	public function default_coupon_message() {
+		return __( 'Use code {coupon_code} to save on your next order!', 'wc-thanks-redirect' );
+	}
+
+	/**
 	 * Get payment gateways
 	 *
 	 * @since 4.1.6

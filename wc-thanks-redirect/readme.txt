@@ -3,11 +3,11 @@ Contributors: nitin247
 Author URI: http://www.nitin247.com/
 Author: Nitin Prakash
 Donate link: https://nitin247.com/buy-me-a-coffee/
-Tags: Thank You Page, Custom Thank You Page for WooCommerce, WooCommerce Thank You Page, WooCommerce Thank You Page Customizer, Woo Thank You Page
+Tags: Thank You, Thank You Page, Custom Thank You Page for WooCommerce, WooCommerce Thank You Page, WooCommerce Thank You Page Customizer
 Requires at least: 6.2
 Tested up to: 7.1
-Stable tag: 4.3.3
-Version: 4.3.3
+Stable tag: 4.3.4
+Version: 4.3.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -324,6 +324,11 @@ Enjoy using the Thank you page for WooCommerce plugin!
 6. Redirect Priority Settings 
 
 == Changelog ==
+**V 4.3.4**
+Added a Coupon block/widget and an Order Details block/widget for Gutenberg and Elementor
+Added an installable "Thank You Page Layout" Gutenberg pattern
+Admin styling cleanup
+
 **V 4.3.3**
 Redesigned the Settings and Rules admin pages for a cleaner, single-screen layout
 Save notifications now use on-screen toast alerts instead of the default WordPress notice
@@ -442,6 +447,9 @@ Plugin updated for per product redirect urls.
 Stable initial release
 
 == Upgrade Notice ==
+
+= 4.3.4 =
+Gutenberg/Elementor Coupon and Order Details blocks, plus an installable Thank You page pattern
 
 = 4.3.2 =
 SDK Update

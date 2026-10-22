@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'neebplugins/wc-thanks-redirect',
-        'pretty_version' => 'dev-release/4.3.3',
-        'version' => 'dev-release/4.3.3',
-        'reference' => '644cb9ebb4dd280cba7733c164ca7b3e193ed483',
+        'pretty_version' => 'dev-feature/pro-sell',
+        'version' => 'dev-feature/pro-sell',
+        'reference' => 'f1f386e09af69b2b4f5b46ae39d9940df2f73882',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,18 +11,18 @@
     ),
     'versions' => array(
         'freemius/wordpress-sdk' => array(
-            'pretty_version' => '2.13.4',
-            'version' => '2.13.4.0',
-            'reference' => 'fa43eb92ae9dffa0d9f5ae11b5a1739bd7222308',
+            'pretty_version' => '2.13.5',
+            'version' => '2.13.5.0',
+            'reference' => null,
             'type' => 'library',
             'install_path' => __DIR__ . '/../freemius/wordpress-sdk',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'neebplugins/wc-thanks-redirect' => array(
-            'pretty_version' => 'dev-release/4.3.3',
-            'version' => 'dev-release/4.3.3',
-            'reference' => '644cb9ebb4dd280cba7733c164ca7b3e193ed483',
+            'pretty_version' => 'dev-feature/pro-sell',
+            'version' => 'dev-feature/pro-sell',
+            'reference' => 'f1f386e09af69b2b4f5b46ae39d9940df2f73882',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

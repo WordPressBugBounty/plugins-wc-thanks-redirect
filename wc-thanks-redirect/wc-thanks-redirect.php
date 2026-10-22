@@ -10,7 +10,7 @@
  * Plugin Name:       Thank You Page for WooCommerce
  * Plugin URI:        https://nitin247.com/plugin/wc-thanks-redirect/
  * Description:       Thank You Page for WooCommerce allows adding Thank You Page or Thank You URL for WooCommerce Products for your Customers, now supports Order Details on Thank You Page. This plugin does not support Multisite.
- * Version:           4.3.3
+ * Version:           4.3.4
  * Author:            Nitin Prakash
  * Author URI:        http://www.nitin247.com/
  * License:           GPL-2.0+
@@ -21,23 +21,30 @@
  * Requires at least: 6.2
  * Tested up to: 7.1
  * WC requires at least: 8.2
- * WC tested up to: 11.1
+ * WC tested up to: 11.2
  */
 
 use NeeBPlugins\Wctr\Admin as WctrAdmin;
 use NeeBPlugins\Wctr\Front as WctrFront;
 use NeeBPlugins\Wctr\Api as WctrApi;
+use NeeBPlugins\Wctr\Blocks as WctrBlocks;
+use NeeBPlugins\Wctr\Modules\Preview as WctrPreview;
 use NeeBPlugins\Wctr\Compatibility\SandBoxPaymentBlocksSupport as WCTR_BlocksSupport;
+use NeeBPlugins\Wctr\Compatibility\Elementor as WctrElementor;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || die( 'WordPress Error! Opening plugin file directly' );
 
-defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.3.3' );
+defined( 'WCTR_VERSION' ) || define( 'WCTR_VERSION', '4.3.4' );
 defined( 'WCTR_DIR' ) || define( 'WCTR_DIR', plugin_dir_path( __DIR__ ) );
 defined( 'WCTR_FILE' ) || define( 'WCTR_FILE', __FILE__ );
 defined( 'WCTR_PLUGIN_DIR' ) || define( 'WCTR_PLUGIN_DIR', plugin_dir_path( WCTR_FILE ) );
 defined( 'WCTR_PLUGIN_URL' ) || define( 'WCTR_PLUGIN_URL', plugin_dir_url( WCTR_FILE ) );
 defined( 'WCTR_KB_URL' ) || define( 'WCTR_KB_URL', 'https://nitin247.com/docs/thank-you-page/' );
+defined( 'WCTR_PRICING_URL' ) || define( 'WCTR_PRICING_URL', 'https://nitin247.com/plugin/thank-you-page-for-woocommerce/#pricing' );
+
+// gated behind this one constant rather than a Freemius premium-code
+defined( 'WCTR_SHOW_UPSELL' ) || define( 'WCTR_SHOW_UPSELL', true );
 
 // Include dependencies
 if ( file_exists( WCTR_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
@@ -166,6 +173,12 @@ if ( ! class_exists( 'WCTR_Plugin' ) ) {
 			$wctrfront = WctrFront::get_instance(); // phpcs:ignore
 			// Initialize REST API Handler
 			$wctrapi = WctrApi::get_instance(); // phpcs:ignore
+			// Initialize Admin Order Preview
+			$wctrpreview = WctrPreview::get_instance(); // phpcs:ignore
+			// Initialize Gutenberg Blocks
+			$wctrblocks = WctrBlocks::get_instance(); // phpcs:ignore
+			// Initialize Elementor Widgets
+			$wctrelementor = WctrElementor::get_instance(); // phpcs:ignore
 		}
 
 		/**
